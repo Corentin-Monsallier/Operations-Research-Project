@@ -48,10 +48,14 @@ def balas_hammer(problem):
         best_idx = None
         best_cell = None
 
+        print("\nPenalties:")
+
         # Check row penalties
         for i in active_rows:
             values = [(costs[i][j], i, j) for j in active_cols]
             penalty, min_cell = compute_penalty(values)
+
+            print(f"Row P{i+1}: {penalty}")
 
             if penalty is not None and penalty > best_penalty:
                 best_penalty = penalty
@@ -64,13 +68,19 @@ def balas_hammer(problem):
             values = [(costs[i][j], i, j) for i in active_rows]
             penalty, min_cell = compute_penalty(values)
 
+            print(f"Column C{j+1}: {penalty}")
+
             if penalty is not None and penalty > best_penalty:
                 best_penalty = penalty
                 best_is_row = False
                 best_idx = j
                 best_cell = min_cell
 
+        best_select = "row" if best_is_row else "column"
+        print(f"\nMax penalty: {best_penalty} on {best_select} {best_idx+1}")
+        print(f"Selected cell: P{i+1}, C{j+1} (cost = {costs[i][j]})")
         # Allocation on selected cell
+        # choice of edge
         _, i, j = best_cell
         qty = min(provisions[i], orders[j])
         proposal[i][j] = qty
