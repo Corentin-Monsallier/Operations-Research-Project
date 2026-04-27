@@ -1,86 +1,79 @@
 from read_problem import read_problem, display_cost_matrix, display_transport_proposal, total_cost
+import os
 
 # ============================================================
-#  ALGORITHME NORD-OUEST
+# NORTH-WEST METHOD
 #
-#  Principe :
-#  - On part de la case (0, 0) en haut à gauche
-#  - On alloue le maximum possible : min(provision[i], order[j])
-#  - Si la provision du fournisseur i est épuisée → on descend (i++)
-#  - Si la commande du client j est satisfaite   → on va à droite (j++)
-#  - On s'arrête quand i == n et j == m
+# Builds an initial feasible solution by starting at (0,0)
+# and allocating as much as possible at each step.
 # ============================================================
 
 def north_west(problem):
-    """
-    Calcule la proposition initiale par la méthode Nord-Ouest.
-    Retourne une matrice n×m (None = case vide, entier = quantité transportée).
-    """
     n, m = problem["n"], problem["m"]
 
-    # Copies des provisions et commandes (on va les modifier)
+    # Copy supply and demand (we modify them)
     provisions = problem["provisions"][:]
-    orders     = problem["orders"][:]
+    orders = problem["orders"][:]
 
-    # Initialisation de la proposition à None
+    # Initialize empty solution
     proposal = [[None] * m for _ in range(n)]
 
-    i, j = 0, 0  # On commence en haut à gauche
+    i, j = 0, 0
 
     while i < n and j < m:
-
-        # Quantité allouée = minimum de ce qui reste disponible
         qty = min(provisions[i], orders[j])
         proposal[i][j] = qty
 
         provisions[i] -= qty
-        orders[j]     -= qty
+        orders[j] -= qty
 
-        print(f"  Alloue {qty} de P{i+1} vers C{j+1} "
-              f"(provision restante : {provisions[i]}, commande restante : {orders[j]})")
-
-        # Avancer dans la bonne direction
+        # Move in the table
         if provisions[i] == 0 and orders[j] == 0:
-            # Les deux épuisés en même temps → cas dégénéré, on avance en diagonale
+            # Degenerate case: move diagonally
             i += 1
             j += 1
         elif provisions[i] == 0:
-            i += 1  # Fournisseur épuisé → ligne suivante
+            i += 1
         else:
-            j += 1  # Commande satisfaite → colonne suivante
+            j += 1
 
     return proposal
 
 
 # ============================================================
-#  TEST
+# TEST
 # ============================================================
 
 if __name__ == "__main__":
-    import os
-
-    folder = input("Chemin vers le dossier des problèmes : ").strip()
+    folder = input("Path to problem folder: ").strip()
 
     if not os.path.exists(folder):
-        print(f"Dossier introuvable : {folder}")
+        print(f"Folder not found: {folder}")
     else:
         txt_files = sorted([f for f in os.listdir(folder) if f.endswith(".txt")])
 
         for filename in txt_files:
             filepath = os.path.join(folder, filename)
+
             print("\n" + "=" * 60)
-            print(f"  FICHIER : {filename}")
+            print(f"FILE: {filename}")
             print("=" * 60)
 
             try:
                 problem = read_problem(filepath)
+
+                # Display input data
                 display_cost_matrix(problem)
 
-                print("\n--- Étapes Nord-Ouest ---")
+                # Run North-West method
+                print("\n--- North-West solution ---")
                 proposal = north_west(problem)
 
                 display_transport_proposal(problem, proposal)
-                print(f"\nCoût total (Nord-Ouest) : {total_cost(problem, proposal)}")
+
+                # Compute total cost
+                cost = total_cost(problem, proposal)
+                print(f"\nTotal cost (North-West): {cost}")
 
             except Exception as e:
-                print(f"  ERREUR : {e}")
+                print(f"ERROR: {e}")
