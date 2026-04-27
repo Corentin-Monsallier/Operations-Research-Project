@@ -92,7 +92,7 @@ def display_cost_matrix(problem):
 
     # Rows
     for i in range(n):
-        row = f"P{i+1:<5} " + "  ".join(f"{costs[i][j]:>{col_widths[j]}}" for j in range(m))
+        row = f"S{i+1:<5} " + "  ".join(f"{costs[i][j]:>{col_widths[j]}}" for j in range(m))
         row += f"  {provisions[i]:>{prov_width}}"
         print(row)
 
@@ -131,7 +131,7 @@ def display_transport_proposal(problem, proposal):
             val = proposal[i][j]
             cells.append(f"{val:>{col_widths[j]}}" if val is not None else f"{'·':>{col_widths[j]}}")
 
-        row = f"P{i+1:<5} " + "  ".join(cells) + f"  {provisions[i]:>{prov_width}}"
+        row = f"S{i+1:<5} " + "  ".join(cells) + f"  {provisions[i]:>{prov_width}}"
         print(row)
 
     print("  " + "-" * (len(header) - 2))
@@ -160,7 +160,7 @@ def display_potential_costs(problem, u, v):
 
     # Rows
     for i in range(n):
-        row = f"P{i+1:<5} " + "  ".join(f"{pot_costs[i][j]:>{col_widths[j]}}" for j in range(m))
+        row = f"S{i+1:<5} " + "  ".join(f"{pot_costs[i][j]:>{col_widths[j]}}" for j in range(m))
         print(row)
 
 
@@ -184,7 +184,7 @@ def display_marginal_costs(problem, u, v):
 
     # Rows
     for i in range(n):
-        row = f"P{i+1:<5} " + "  ".join(f"{marginals[i][j]:>{col_widths[j]}}" for j in range(m))
+        row = f"S{i+1:<5} " + "  ".join(f"{marginals[i][j]:>{col_widths[j]}}" for j in range(m))
         print(row)
 
 # ------------------------------------------------------------------------------

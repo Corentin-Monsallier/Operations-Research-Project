@@ -15,7 +15,7 @@ def build_graph(proposal):
 
     # Create nodes
     for i in range(n):
-        graph[f"P{i}"] = []
+        graph[f"S{i}"] = []
     for j in range(m):
         graph[f"C{j}"] = []
 
@@ -23,11 +23,11 @@ def build_graph(proposal):
     for i in range(n):
         for j in range(m):
             if proposal[i][j] is not None:
-                p = f"P{i}"
+                s = f"S{i}"
                 c = f"C{j}"
 
-                graph[p].append(c)
-                graph[c].append(p)
+                graph[s].append(c)
+                graph[c].append(s)
 
     return graph
 
@@ -91,21 +91,21 @@ def connect_graph(problem, proposal):
 
                 if proposal[i][j] is None:
 
-                    p = f"P{i}"
+                    s = f"S{i}"
                     c = f"C{j}"
 
-                    comp_p = None
+                    comp_s = None
                     comp_c = None
 
-                    # Find components of P and C
+                    # Find components of S and C
                     for comp in components:
-                        if p in comp:
-                            comp_p = comp
+                        if s in comp:
+                            comp_s = comp
                         if c in comp:
                             comp_c = comp
 
                     # Only connect different components
-                    if comp_p != comp_c:
+                    if comp_s != comp_c:
                         if costs[i][j] < best_cost:
                             best_cost = costs[i][j]
                             best_edge = (i, j)
@@ -119,7 +119,7 @@ def connect_graph(problem, proposal):
         # Add edge with zero flow
         proposal[i][j] = 0
 
-        print(f"Added edge: P{i+1}, C{j+1} (cost = {costs[i][j]})")
+        print(f"Added edge: S{i+1}, C{j+1} (cost = {costs[i][j]})")
 
     return proposal
 
