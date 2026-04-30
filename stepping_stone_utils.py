@@ -1,4 +1,4 @@
-from read_problem import read_problem, display_cost_matrix, display_transport_proposal, total_cost
+from read_problem import *
 from graph_utils import *
 import os
 from collections import deque
@@ -59,6 +59,20 @@ def marginal_costs(problem, u, v):
         print(table[i])
 
     return table
+
+#------------------------------
+# DEGENERATE OR NOT
+#------------------------------
+
+def is_degenerate(problem, proposal):
+    n, m = problem["n"], problem["m"]
+
+    count = sum(
+        1 for i in range(n) for j in range(m)
+        if proposal[i][j] is not None
+    )
+
+    return count < (n + m - 1)
 
 #-------------------------------
 # CYCLE PART
@@ -171,124 +185,102 @@ def transportation_maximization(proposal, cycle):
     if not deleted_found:
         print("None")
 
-# --------------------------------------------------------------------------------------------------------------------------
 
+#-------------------------------
+# FIND CYCLE -> TO UPDATE THE SOLUTION
+#-------------------------------
 
+def find_cycle(proposal, start):
 
-# ---------------------------------------
-# test if connected BFS
-# ---------------------------------------
+    n = len(proposal)
+    m = len(proposal[0])
 
-if __name__ == "__main__":
-    import os
+    # Get all basic cells
+    def is_basic(i, j):
+        return proposal[i][j] is not None or (i, j) == start
 
-    from read_problem import (
-        read_problem,
-        display_cost_matrix,
-        display_transport_proposal,
-        total_cost
-    )
+    for i1 in range(n):
+        for j1 in range(m):
+            if (i1, j1) == start:
+                continue
+            if not is_basic(i1, j1):
+                continue
 
-    from north_west import north_west
-    # from balas_hammer import balas_hammer  # optional
+            # same row as start
+            if i1 == start[0]:
 
-    from graph_utils import (
-        build_graph,
-        find_connected_components,
-        connect_graph,
-        test_connectivity
-    )
+                for i2 in range(n):
+                    if i2 == i1:
+                        continue
 
-    from stepping_stone import (
-        compute_potentials,
-        potential_costs,
-        marginal_costs
-    )
+                    if not is_basic(i2, j1):
+                        continue
 
-    # -----------------------------------
-    # SELECT FILE
-    # -----------------------------------
-    folder = input("Path to problem folder: ").strip()
+                    j2 = start[1]
 
-    if not os.path.exists(folder):
-        print("Folder not found")
-        exit()
+                    # check last corner
+                    if i2 != start[0] and j2 != j1:
+                        if is_basic(i2, j2):
 
-    files = sorted([f for f in os.listdir(folder) if f.endswith(".txt")])
+                            cycle = [
+                                start,
+                                (i1, j1),
+                                (i2, j1),
+                                (i2, j2),
+                                start
+                            ]
 
-    if not files:
-        print("No .txt files found")
-        exit()
+                            print("\nCycle found:")
+                            print(cycle)
 
-    print("\nAvailable files:")
-    for i, f in enumerate(files):
-        print(f"{i+1}. {f}")
+                            return cycle
 
-    choice = int(input("\nChoose file: ")) - 1
+    print("\nNo valid cycle found.")
+    return None
 
-    if choice < 0 or choice >= len(files):
-        print("Invalid choice")
-        exit()
+def update_proposal(proposal, cycle):
+    minus_cells = []
+    signs = []
 
-    filepath = os.path.join(folder, files[choice])
+    for k, (i, j) in enumerate(cycle[:-1]):
+        if k % 2 == 0:
+            signs.append((i, j, "+"))
+        else:
+            signs.append((i, j, "-"))
+            minus_cells.append((i, j))
 
-    print("\n" + "=" * 60)
-    print(f"FILE: {files[choice]}")
-    print("=" * 60)
+    theta = min(proposal[i][j] for (i, j) in minus_cells)
 
-    # -----------------------------------
-    # 1. READ PROBLEM
-    # -----------------------------------
-    problem = read_problem(filepath)
+    print("\n=== APPLYING UPDATE ===")
+    print(f"Theta = {theta}\n")
 
-    # -----------------------------------
-    # 2. DISPLAY COST MATRIX
-    # -----------------------------------
-    display_cost_matrix(problem)
+    print("Before update:")
+    for (i, j, sign) in signs:
+        val = proposal[i][j]
+        print(f"{sign} S{i+1}, C{j+1} : {val}")
 
-    # -----------------------------------
-    # 3. INITIAL SOLUTION
-    # -----------------------------------
-    proposal = north_west(problem)
-    # proposal = balas_hammer(problem)
+    # APPLY
+    for (i, j, sign) in signs:
+        if sign == "+":
+            if proposal[i][j] is None:
+                proposal[i][j] = 0
+            proposal[i][j] += theta
+        else:
+            proposal[i][j] -= theta
 
-    display_transport_proposal(problem, proposal)
+    print("\nAfter update:")
+    for (i, j, sign) in signs:
+        val = proposal[i][j]
+        print(f"{sign} S{i+1}, C{j+1} : {val}")
 
-    print(f"\nTotal cost: {total_cost(problem, proposal)}")
+    print("\nRemoved edges:")
+    removed = False
 
-    # -----------------------------------
-    # 4. CONNECTIVITY BEFORE FIX
-    # -----------------------------------
-    print("\n=== BEFORE CONNECT ===")
-    test_connectivity(proposal)
+    for (i, j) in minus_cells:
+        if proposal[i][j] == 0:
+            proposal[i][j] = None
+            print(f"S{i+1}, C{j+1}")
+            removed = True
 
-    # -----------------------------------
-    # 5. FIX CONNECTIVITY (CRUCIAL STEP)
-    # -----------------------------------
-    proposal = connect_graph(problem, proposal)
-
-    # -----------------------------------
-    # 6. CONNECTIVITY AFTER FIX
-    # -----------------------------------
-    print("\n=== AFTER CONNECT ===")
-    test_connectivity(proposal)
-
-    # -----------------------------------
-    # 7. DISPLAY UPDATED PROPOSAL
-    # -----------------------------------
-    display_transport_proposal(problem, proposal)
-
-    # -----------------------------------
-    # 8. COMPUTE POTENTIALS
-    # -----------------------------------
-    u, v = compute_potentials(problem, proposal)
-
-    print("\nPotentials:")
-    print("u =", u)
-    print("v =", v)
-
-    # -----------------------------------
-    # 9. COST TABLES
-    # -----------------------------------
-    potential_costs(problem, u, v)
-    marginal_costs(problem, u, v)
+    if not removed:
+        print("None")

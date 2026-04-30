@@ -1,0 +1,175 @@
+=== COST MATRIX ===
+         C1   C2  Prov.
+  ---------------------
+S1      30   20    100
+S2      10   50    100
+  ---------------------
+Ord.   100  100
+
+Choose initial solution method:
+1. North-West
+2. Balas-Hammer
+Choice: 1
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1     100    ·    100
+S2       ·  100    100
+  ---------------------
+Ord.   100  100
+
+TRANSPORT GRAPH:
+S1 -- C1 (100)
+S2 -- C2 (100)
+Initial cost: 8000
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1     100    ·    100
+S2       ·  100    100
+  ---------------------
+Ord.   100  100
+
+TRANSPORT GRAPH:
+S1 -- C1 (100)
+S2 -- C2 (100)
+Current cost: 8000
+The proposal is degenerate
+
+=== CONNECTIVITY TEST ===
+Graph is NOT connected.
+
+Connected sub-graphs:
+Subgraph 1: ['S1', 'C1']
+Subgraph 2: ['S2', 'C2']
+
+Graph not connected. Fixing...
+Added edge: S2, C1 (cost = 10)
+
+Graph is now connected.
+
+Potentials:
+u = [0, -20]
+v = [30, 70]
+
+------------POTENTIAL COSTS------------
+        C1  C2
+  ------------
+S1     30  70
+S2     10  50
+
+------------MARGINAL COSTS------------
+        C1   C2
+  -------------
+S1     0  -50
+S2     0    0
+
+--- Checking optimality ---
+Improving edge: S1, C2 (delta = -50)
+
+Cycle found:
+[(0, 1), (0, 0), (1, 0), (1, 1), (0, 1)]
+
+=== TRANSPORTATION MAXIMIZATION ===
+
+Conditions for each box:
++ P1, C2
+- P1, C1
++ P2, C1
+- P2, C2
++ P1, C2
+
+Theta (maximum transport): 100
+
+Deleted edge(s):
+P1, C1
+P2, C2
+
+=== APPLYING UPDATE ===
+Theta = 100
+
+Before update:
++ S1, C2 : None
+- S1, C1 : 100
++ S2, C1 : 0
+- S2, C2 : 100
+
+After update:
++ S1, C2 : 100
+- S1, C1 : 0
++ S2, C1 : 100
+- S2, C2 : 0
+
+Removed edges:
+S1, C1
+S2, C2
+
+-----------
+ ITERATION 2
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       ·  100    100
+S2     100    ·    100
+  ---------------------
+Ord.   100  100
+
+TRANSPORT GRAPH:
+S1 -- C2 (100)
+S2 -- C1 (100)
+Current cost: 3000
+The proposal is degenerate
+
+=== CONNECTIVITY TEST ===
+Graph is NOT connected.
+
+Connected sub-graphs:
+Subgraph 1: ['S1', 'C2']
+Subgraph 2: ['S2', 'C1']
+
+Graph not connected. Fixing...
+Added edge: S1, C1 (cost = 30)
+
+Graph is now connected.
+
+Potentials:
+u = [0, -20]
+v = [30, 20]
+
+------------POTENTIAL COSTS------------
+        C1  C2
+  ------------
+S1     30  20
+S2     10   0
+
+------------MARGINAL COSTS------------
+        C1  C2
+  ------------
+S1     0   0
+S2     0  50
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       0  100    100
+S2     100    ·    100
+  ---------------------
+Ord.   100  100
+Final cost: 3000

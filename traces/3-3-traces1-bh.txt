@@ -1,0 +1,107 @@
+=== COST MATRIX ===
+         C1   C2  Prov.
+  ---------------------
+S1      30   20    100
+S2      10   50    100
+  ---------------------
+Ord.   100  100
+
+Choose initial solution method:
+1. North-West
+2. Balas-Hammer
+Choice: 2
+
+Penalties:
+Row S1: 10
+Row S2: 40
+Column C1: 20
+Column C2: 30
+
+Max penalty: 40 on row 2
+Selected cell: S2, C2 (cost = 50)
+
+Penalties:
+Row S1: 10
+Column C1: 30
+Column C2: 20
+
+Max penalty: 30 on column 1
+Selected cell: S1, C2 (cost = 20)
+
+Penalties:
+Row S1: 20
+Column C2: 20
+
+Max penalty: 20 on row 1
+Selected cell: S1, C2 (cost = 20)
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       0  100    100
+S2     100    ·    100
+  ---------------------
+Ord.   100  100
+
+TRANSPORT GRAPH:
+S1 -- C1 (0)
+S1 -- C2 (100)
+S2 -- C1 (100)
+Initial cost: 3000
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       0  100    100
+S2     100    ·    100
+  ---------------------
+Ord.   100  100
+
+TRANSPORT GRAPH:
+S1 -- C1 (0)
+S1 -- C2 (100)
+S2 -- C1 (100)
+Current cost: 3000
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Graph is now connected.
+
+Potentials:
+u = [0, -20]
+v = [30, 20]
+
+------------POTENTIAL COSTS------------
+        C1  C2
+  ------------
+S1     30  20
+S2     10   0
+
+------------MARGINAL COSTS------------
+        C1  C2
+  ------------
+S1     0   0
+S2     0  50
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       0  100    100
+S2     100    ·    100
+  ---------------------
+Ord.   100  100
+Final cost: 3000

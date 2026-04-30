@@ -55,7 +55,7 @@ def balas_hammer(problem):
             values = [(costs[i][j], i, j) for j in active_cols]
             penalty, min_cell = compute_penalty(values)
 
-            print(f"Row P{i+1}: {penalty}")
+            print(f"Row S{i+1}: {penalty}")
 
             if penalty is not None and penalty > best_penalty:
                 best_penalty = penalty
@@ -78,7 +78,7 @@ def balas_hammer(problem):
 
         best_select = "row" if best_is_row else "column"
         print(f"\nMax penalty: {best_penalty} on {best_select} {best_idx+1}")
-        print(f"Selected cell: P{i+1}, C{j+1} (cost = {costs[i][j]})")
+        print(f"Selected cell: S{i+1}, C{j+1} (cost = {costs[i][j]})")
         # Allocation on selected cell
         # choice of edge
         _, i, j = best_cell
@@ -97,41 +97,3 @@ def balas_hammer(problem):
             active_cols.remove(j)
 
     return proposal
-
-
-# ============================================================
-# TEST
-# ============================================================
-
-if __name__ == "__main__":
-    folder = input("Path to problem folder: ").strip()
-
-    if not os.path.exists(folder):
-        print(f"Folder not found: {folder}")
-    else:
-        txt_files = sorted([f for f in os.listdir(folder) if f.endswith(".txt")])
-
-        for filename in txt_files:
-            filepath = os.path.join(folder, filename)
-
-            print("\n" + "=" * 60)
-            print(f"FILE: {filename}")
-            print("=" * 60)
-
-            try:
-                problem = read_problem(filepath)
-
-                # Display input
-                display_cost_matrix(problem)
-
-                # Run Balas-Hammer
-                print("\n--- Balas-Hammer solution ---")
-                proposal = balas_hammer(problem)
-
-                display_transport_proposal(problem, proposal)
-
-                cost = total_cost(problem, proposal)
-                print(f"\nTotal cost (Balas-Hammer): {cost}")
-
-            except Exception as e:
-                print(f"ERROR: {e}")

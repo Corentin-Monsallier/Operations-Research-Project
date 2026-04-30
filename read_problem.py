@@ -58,16 +58,6 @@ def _col_width(values, header=""):
     max_val = max((len(str(v)) for v in values), default=0)
     return max(max_val, len(str(header)))
 
-# ???????????????????????????????????????????????????????????????????????????
-# NOTE SUR LE FORMATAGE DES CELLULES (f-strings)
-# -----------------------------------------------
-# Dans tout ce fichier, on utilise la syntaxe f"{valeur:>{largeur}}" pour
-# aligner les cellules à droite dans une largeur fixe. Exemples :
-#   f"{42:>6}"   → "    42"   (42 aligné à droite dans 6 caractères)
-#   f"{'C1':>4}" → "  C1"    (texte aligné à droite dans 4 caractères)
-#   f"{5:<5}"    → "5    "    (5 aligné à GAUCHE dans 5 caractères, utilisé pour les labels "Pi")
-# Le :> signifie "aligner à droite", :< signifie "aligner à gauche".
-
 
 def display_cost_matrix(problem):
     n, m = problem["n"], problem["m"]
@@ -108,7 +98,7 @@ def display_transport_proposal(problem, proposal):
     provisions = problem["provisions"]
     orders = problem["orders"]
 
-    print("\n=== TRANSPORT PROPOSAL ===")
+    print("\n-----------------TRANSPORT PROPOSAL------------------")
 
     col_widths = []
     for j in range(m):
@@ -144,7 +134,7 @@ def display_transport_proposal(problem, proposal):
 def display_potential_costs(problem, u, v):
     n, m = problem["n"], problem["m"]
 
-    print("\n=== POTENTIAL COSTS (u[i] + v[j]) ===")
+    print("\n------------POTENTIAL COSTS------------")
 
     pot_costs = [[u[i] + v[j] for j in range(m)] for i in range(n)]
 
@@ -168,7 +158,7 @@ def display_marginal_costs(problem, u, v):
     n, m = problem["n"], problem["m"]
     costs = problem["costs"]
 
-    print("\n=== MARGINAL COSTS (c[i][j] - u[i] - v[j]) ===")
+    print("\n------------MARGINAL COSTS------------")
 
     marginals = [[costs[i][j] - u[i] - v[j] for j in range(m)] for i in range(n)]
 
@@ -199,38 +189,3 @@ def total_cost(problem, proposal):
             if proposal[i][j] is not None and proposal[i][j] > 0:
                 cost += problem["costs"][i][j] * proposal[i][j]
     return cost
-
-
-# ------------------------------------------------------------------------------
-#  4. TEST all the available files
-# ------------------------------------------------------------------------------
-
-def test_all_problems(folder):
-    txt_files = sorted([f for f in os.listdir(folder) if f.endswith(".txt")])
-
-    if not txt_files:
-        print(f"No .txt files found in: {folder}")
-        return
-
-    for filename in txt_files:
-        filepath = os.path.join(folder, filename)
-
-        print("\n" + "=" * 60)
-        print(f"FILE: {filename}")
-        print("=" * 60)
-
-        try:
-            problem = read_problem(filepath)
-            print(f"Loaded: {problem['n']} suppliers, {problem['m']} customers")
-            display_cost_matrix(problem)
-        except Exception as e:
-            print(f"ERROR: {e}")
-
-
-if __name__ == "__main__":
-    folder = input("Path to problem folder: ").strip()
-
-    if not os.path.exists(folder):
-        print(f"Folder not found: {folder}")
-    else:
-        test_all_problems(folder)
