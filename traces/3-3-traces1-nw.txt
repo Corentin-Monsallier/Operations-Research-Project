@@ -51,7 +51,7 @@ Connected sub-graphs:
 Subgraph 1: ['S1', 'C1']
 Subgraph 2: ['S2', 'C2']
 
-Graph not connected. Fixing...
+Graph not connected => we add the edges:
 Added edge: S2, C1 (cost = 10)
 
 Graph is now connected.
@@ -137,7 +137,7 @@ Connected sub-graphs:
 Subgraph 1: ['S1', 'C2']
 Subgraph 2: ['S2', 'C1']
 
-Graph not connected. Fixing...
+Graph not connected => we add the edges:
 Added edge: S1, C1 (cost = 30)
 
 Graph is now connected.
