@@ -125,9 +125,9 @@ S3     6  7  5
 ------------MARGINAL COSTS------------
         C1  C2  C3
   ----------------
-S1     0  1  4
-S2     0  1  0
-S3     0  0  2
+S1      0   1   4
+S2      0   1   0
+S3      0   0   2
 
 --- Checking optimality ---
 => IT IS THE OPTIMAL SOLUTION

@@ -68,9 +68,9 @@ S3     5  7  7
 ------------MARGINAL COSTS------------
         C1  C2  C3
   ----------------
-S1     0  0   1
-S2     0  0  -3
-S3     1  0   0
+S1      0   0   1
+S2      0   0  -3
+S3      1   0   0
 
 --- Checking optimality ---
 Improving edge: S2, C3 (delta = -3)
@@ -147,9 +147,9 @@ S3     8  7  7
 ------------MARGINAL COSTS------------
         C1  C2  C3
   ----------------
-S1      0  3  4
-S2      0  3  0
-S3     -2  0  0
+S1      0   3   4
+S2      0   3   0
+S3     -2   0   0
 
 --- Checking optimality ---
 Improving edge: S3, C1 (delta = -2)
@@ -226,9 +226,9 @@ S3     6  7  5
 ------------MARGINAL COSTS------------
         C1  C2  C3
   ----------------
-S1     0  1  4
-S2     0  1  0
-S3     0  0  2
+S1      0   1   4
+S2      0   1   0
+S3      0   0   2
 
 --- Checking optimality ---
 => IT IS THE OPTIMAL SOLUTION
