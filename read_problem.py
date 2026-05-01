@@ -165,7 +165,9 @@ def display_marginal_costs(problem, u, v):
     col_widths = []
     for j in range(m):
         col_vals = [marginals[i][j] for i in range(n)]
-        col_widths.append(max(len(str(v)) for v in col_vals))
+        max_val_width = max(len(str(v)) for v in col_vals)
+        header_width = len(f"C{j+1}")
+        col_widths.append(max(max_val_width, header_width))
 
     # Header
     header = "        " + "  ".join(f"{'C'+str(j+1):>{col_widths[j]}}" for j in range(m))
