@@ -1,0 +1,203 @@
+
+=== COST MATRIX ===
+         C1   C2  Prov.
+  ---------------------
+S1      50   20    100
+S2      10   50    200
+S3      50   40    100
+S4      45   35    200
+  ---------------------
+Ord.   300  300
+
+Initial proposal algorithm: NW
+
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1     100    ·    100
+S2     200    ·    200
+S3       ·  100    100
+S4       ·  200    200
+  ---------------------
+Ord.   300  300
+
+TRANSPORT GRAPH:
+S1 -- C1 (100)
+S2 -- C1 (200)
+S3 -- C2 (100)
+S4 -- C2 (200)
+Initial cost: 18000
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1     100    ·    100
+S2     200    ·    200
+S3       ·  100    100
+S4       ·  200    200
+  ---------------------
+Ord.   300  300
+
+TRANSPORT GRAPH:
+S1 -- C1 (100)
+S2 -- C1 (200)
+S3 -- C2 (100)
+S4 -- C2 (200)
+Current cost: 18000
+The proposal is degenerate
+
+=== CONNECTIVITY TEST ===
+Graph is NOT connected.
+
+Connected sub-graphs:
+Subgraph 1: ['S1', 'C1', 'S2']
+Subgraph 2: ['S3', 'C2', 'S4']
+
+Graph not connected => we add the edges:
+Added edge: S1, C2 (cost = 20)
+
+Graph is now connected.
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, -40, 20, 15]
+v = [50, 20]
+
+------------POTENTIAL COSTS------------
+        C1   C2
+  -------------
+S1     50   20
+S2     10  -20
+S3     70   40
+S4     65   35
+
+------------MARGINAL COSTS------------
+         C1  C2
+  -------------
+S1       0   0
+S2       0  70
+S3     -20   0
+S4     -20   0
+
+--- Checking optimality ---
+Improving edge: S3, C1 (delta = -20)
+
+Cycle found:
+[(2, 0), (2, 1), (0, 1), (0, 0), (2, 0)]
+
+=== TRANSPORTATION MAXIMIZATION ===
+
+Conditions for each box:
++ P3, C1
+- P3, C2
++ P1, C2
+- P1, C1
+
+Theta (maximum transport): 100
+
+Deleted edge(s):
+P3, C2
+P1, C1
+
+=== APPLYING UPDATE ===
+Theta = 100
+
+Before update:
++ S3, C1 : None
+- S3, C2 : 100
++ S1, C2 : 0
+- S1, C1 : 100
+
+After update:
++ S3, C1 : 100
+- S3, C2 : 0
++ S1, C2 : 100
+- S1, C1 : 0
+
+Removed edges:
+S3, C2
+S1, C1
+
+-----------
+ ITERATION 2
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       ·  100    100
+S2     200    ·    200
+S3     100    ·    100
+S4       ·  200    200
+  ---------------------
+Ord.   300  300
+
+TRANSPORT GRAPH:
+S1 -- C2 (100)
+S2 -- C1 (200)
+S3 -- C1 (100)
+S4 -- C2 (200)
+Current cost: 16000
+The proposal is degenerate
+
+=== CONNECTIVITY TEST ===
+Graph is NOT connected.
+
+Connected sub-graphs:
+Subgraph 1: ['S1', 'C2', 'S4']
+Subgraph 2: ['S2', 'C1', 'S3']
+
+Graph not connected => we add the edges:
+Added edge: S3, C2 (cost = 40)
+
+Graph is now connected.
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, -20, 20, 15]
+v = [30, 20]
+
+------------POTENTIAL COSTS------------
+        C1  C2
+  ------------
+S1     30  20
+S2     10   0
+S3     50  40
+S4     45  35
+
+------------MARGINAL COSTS------------
+        C1  C2
+  ------------
+S1     20   0
+S2      0  50
+S3      0   0
+S4      0   0
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       ·  100    100
+S2     200    ·    200
+S3     100    0    100
+S4       ·  200    200
+  ---------------------
+Ord.   300  300
+Final cost: 16000

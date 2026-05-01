@@ -1,3 +1,4 @@
+
 === COST MATRIX ===
          C1   C2  Prov.
   ---------------------
@@ -6,18 +7,16 @@ S2      10   50    100
   ---------------------
 Ord.   100  100
 
-Choose initial solution method:
-1. North-West
-2. Balas-Hammer
-Choice: 1
+Initial proposal algorithm: NW
+
 
 --- INITIAL PROPOSAL ---
 
 -----------------TRANSPORT PROPOSAL------------------
          C1   C2  Prov.
   ---------------------
-S1     100    Â·    100
-S2       Â·  100    100
+S1     100    ·    100
+S2       ·  100    100
   ---------------------
 Ord.   100  100
 
@@ -33,8 +32,8 @@ Initial cost: 8000
 -----------------TRANSPORT PROPOSAL------------------
          C1   C2  Prov.
   ---------------------
-S1     100    Â·    100
-S2       Â·  100    100
+S1     100    ·    100
+S2       ·  100    100
   ---------------------
 Ord.   100  100
 
@@ -55,6 +54,9 @@ Graph not connected => we add the edges:
 Added edge: S2, C1 (cost = 10)
 
 Graph is now connected.
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
 
 Potentials:
 u = [0, -20]
@@ -85,7 +87,6 @@ Conditions for each box:
 - P1, C1
 + P2, C1
 - P2, C2
-+ P1, C2
 
 Theta (maximum transport): 100
 
@@ -119,8 +120,8 @@ S2, C2
 -----------------TRANSPORT PROPOSAL------------------
          C1   C2  Prov.
   ---------------------
-S1       Â·  100    100
-S2     100    Â·    100
+S1       ·  100    100
+S2     100    ·    100
   ---------------------
 Ord.   100  100
 
@@ -141,6 +142,9 @@ Graph not connected => we add the edges:
 Added edge: S1, C1 (cost = 30)
 
 Graph is now connected.
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
 
 Potentials:
 u = [0, -20]
@@ -169,7 +173,7 @@ S2     0  50
          C1   C2  Prov.
   ---------------------
 S1       0  100    100
-S2     100    Â·    100
+S2     100    ·    100
   ---------------------
 Ord.   100  100
 Final cost: 3000

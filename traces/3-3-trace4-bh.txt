@@ -1,0 +1,112 @@
+
+=== COST MATRIX ===
+         C1    C2  Prov.
+  ----------------------
+S1      30     1    600
+S2       1    30    500
+  ----------------------
+Ord.   100  1000
+
+Initial proposal algorithm: BH
+
+
+Penalties:
+Row S1: 29
+Row S2: 29
+Column C1: 29
+Column C2: 29
+
+Max penalty: 29
+Row(s) with max penalty: S1, S2
+Column(s) with max penalty: C1, C2
+Chosen candidate: row 1 (tie-break: first in scan order)
+Selected cell: S1, C2 (cost = 1)
+
+Penalties:
+Row S2: 29
+Column C1: 1
+Column C2: 30
+
+Max penalty: 30
+Column(s) with max penalty: C2
+Chosen candidate: column 2
+Selected cell: S2, C2 (cost = 30)
+
+Penalties:
+Row S2: 1
+Column C1: 1
+
+Max penalty: 1
+Row(s) with max penalty: S2
+Column(s) with max penalty: C1
+Chosen candidate: row 2 (tie-break: first in scan order)
+Selected cell: S2, C1 (cost = 1)
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1    C2  Prov.
+  ----------------------
+S1       ·   600    600
+S2     100   400    500
+  ----------------------
+Ord.   100  1000
+
+TRANSPORT GRAPH:
+S1 -- C2 (600)
+S2 -- C1 (100)
+S2 -- C2 (400)
+Initial cost: 12700
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1    C2  Prov.
+  ----------------------
+S1       ·   600    600
+S2     100   400    500
+  ----------------------
+Ord.   100  1000
+
+TRANSPORT GRAPH:
+S1 -- C2 (600)
+S2 -- C1 (100)
+S2 -- C2 (400)
+Current cost: 12700
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, 29]
+v = [-28, 1]
+
+------------POTENTIAL COSTS------------
+         C1  C2
+  -------------
+S1     -28   1
+S2       1  30
+
+------------MARGINAL COSTS------------
+        C1  C2
+  ------------
+S1     58  0
+S2      0  0
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1    C2  Prov.
+  ----------------------
+S1       ·   600    600
+S2     100   400    500
+  ----------------------
+Ord.   100  1000
+Final cost: 12700

@@ -1,0 +1,327 @@
+
+=== COST MATRIX ===
+         C1   C2   C3  Prov.
+  --------------------------
+S1      30   20   15    100
+S2      10   50    2    100
+S3       9   10   30    100
+S4       6    2   29    100
+S5      50   40    3    100
+S6       5   38   27    100
+S7      50    4   22    100
+  --------------------------
+Ord.   400  200  100
+
+Initial proposal algorithm: BH
+
+
+Penalties:
+Row S1: 5
+Row S2: 8
+Row S3: 1
+Row S4: 4
+Row S5: 37
+Row S6: 22
+Row S7: 18
+Column C1: 1
+Column C2: 2
+Column C3: 1
+
+Max penalty: 37
+Row(s) with max penalty: S5
+Chosen candidate: row 5
+Selected cell: S5, C3 (cost = 3)
+
+Penalties:
+Row S1: 10
+Row S2: 40
+Row S3: 1
+Row S4: 4
+Row S6: 33
+Row S7: 46
+Column C1: 1
+Column C2: 2
+
+Max penalty: 46
+Row(s) with max penalty: S7
+Chosen candidate: row 7
+Selected cell: S7, C2 (cost = 4)
+
+Penalties:
+Row S1: 10
+Row S2: 40
+Row S3: 1
+Row S4: 4
+Row S6: 33
+Column C1: 1
+Column C2: 8
+
+Max penalty: 40
+Row(s) with max penalty: S2
+Chosen candidate: row 2
+Selected cell: S2, C1 (cost = 10)
+
+Penalties:
+Row S1: 10
+Row S3: 1
+Row S4: 4
+Row S6: 33
+Column C1: 1
+Column C2: 8
+
+Max penalty: 33
+Row(s) with max penalty: S6
+Chosen candidate: row 6
+Selected cell: S6, C1 (cost = 5)
+
+Penalties:
+Row S1: 10
+Row S3: 1
+Row S4: 4
+Column C1: 3
+Column C2: 8
+
+Max penalty: 10
+Row(s) with max penalty: S1
+Chosen candidate: row 1
+Selected cell: S1, C2 (cost = 20)
+
+Penalties:
+Row S3: 9
+Row S4: 6
+Column C1: 3
+
+Max penalty: 9
+Row(s) with max penalty: S3
+Chosen candidate: row 3
+Selected cell: S3, C1 (cost = 9)
+
+Penalties:
+Row S4: 6
+Column C1: 6
+
+Max penalty: 6
+Row(s) with max penalty: S4
+Column(s) with max penalty: C1
+Chosen candidate: row 4 (tie-break: first in scan order)
+Selected cell: S4, C1 (cost = 6)
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2   C3  Prov.
+  --------------------------
+S1       ·  100    ·    100
+S2     100    ·    ·    100
+S3     100    ·    ·    100
+S4     100    ·    ·    100
+S5       ·    ·  100    100
+S6     100    ·    ·    100
+S7       ·  100    ·    100
+  --------------------------
+Ord.   400  200  100
+
+TRANSPORT GRAPH:
+S1 -- C2 (100)
+S2 -- C1 (100)
+S3 -- C1 (100)
+S4 -- C1 (100)
+S5 -- C3 (100)
+S6 -- C1 (100)
+S7 -- C2 (100)
+Initial cost: 5700
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2   C3  Prov.
+  --------------------------
+S1       ·  100    ·    100
+S2     100    ·    ·    100
+S3     100    ·    ·    100
+S4     100    ·    ·    100
+S5       ·    ·  100    100
+S6     100    ·    ·    100
+S7       ·  100    ·    100
+  --------------------------
+Ord.   400  200  100
+
+TRANSPORT GRAPH:
+S1 -- C2 (100)
+S2 -- C1 (100)
+S3 -- C1 (100)
+S4 -- C1 (100)
+S5 -- C3 (100)
+S6 -- C1 (100)
+S7 -- C2 (100)
+Current cost: 5700
+The proposal is degenerate
+
+=== CONNECTIVITY TEST ===
+Graph is NOT connected.
+
+Connected sub-graphs:
+Subgraph 1: ['S1', 'C2', 'S7']
+Subgraph 2: ['S2', 'C1', 'S3', 'S4', 'S6']
+Subgraph 3: ['S5', 'C3']
+
+Graph not connected => we add the edges:
+Added edge: S2, C3 (cost = 2)
+
+Graph not connected => we add the edges:
+Added edge: S4, C2 (cost = 2)
+
+Graph is now connected.
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, -14, -15, -18, -13, -19, -16]
+v = [24, 20, 16]
+
+------------POTENTIAL COSTS------------
+        C1  C2  C3
+  ----------------
+S1     24  20  16
+S2     10   6   2
+S3      9   5   1
+S4      6   2  -2
+S5     11   7   3
+S6      5   1  -3
+S7      8   4   0
+
+------------MARGINAL COSTS------------
+        C1  C2  C3
+  ----------------
+S1      6   0  -1
+S2      0  44   0
+S3      0   5  29
+S4      0   0  31
+S5     39  33   0
+S6      0  37  30
+S7     42   0  22
+
+--- Checking optimality ---
+Improving edge: S1, C3 (delta = -1)
+
+Cycle found:
+[(0, 2), (0, 1), (3, 1), (3, 0), (1, 0), (1, 2), (0, 2)]
+
+=== TRANSPORTATION MAXIMIZATION ===
+
+Conditions for each box:
++ P1, C3
+- P1, C2
++ P4, C2
+- P4, C1
++ P2, C1
+- P2, C3
+
+Theta (maximum transport): 0
+
+Deleted edge(s):
+P2, C3
+
+=== APPLYING UPDATE ===
+Theta = 0
+
+Before update:
++ S1, C3 : None
+- S1, C2 : 100
++ S4, C2 : 0
+- S4, C1 : 100
++ S2, C1 : 100
+- S2, C3 : 0
+
+After update:
++ S1, C3 : 0
+- S1, C2 : 100
++ S4, C2 : 0
+- S4, C1 : 100
++ S2, C1 : 100
+- S2, C3 : 0
+
+Removed edges:
+S2, C3
+
+-----------
+ ITERATION 2
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2   C3  Prov.
+  --------------------------
+S1       ·  100    0    100
+S2     100    ·    ·    100
+S3     100    ·    ·    100
+S4     100    0    ·    100
+S5       ·    ·  100    100
+S6     100    ·    ·    100
+S7       ·  100    ·    100
+  --------------------------
+Ord.   400  200  100
+
+TRANSPORT GRAPH:
+S1 -- C2 (100)
+S1 -- C3 (0)
+S2 -- C1 (100)
+S3 -- C1 (100)
+S4 -- C1 (100)
+S4 -- C2 (0)
+S5 -- C3 (100)
+S6 -- C1 (100)
+S7 -- C2 (100)
+Current cost: 5700
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, -14, -15, -18, -12, -19, -16]
+v = [24, 20, 15]
+
+------------POTENTIAL COSTS------------
+        C1  C2  C3
+  ----------------
+S1     24  20  15
+S2     10   6   1
+S3      9   5   0
+S4      6   2  -3
+S5     12   8   3
+S6      5   1  -4
+S7      8   4  -1
+
+------------MARGINAL COSTS------------
+        C1  C2  C3
+  ----------------
+S1      6   0   0
+S2      0  44   1
+S3      0   5  30
+S4      0   0  32
+S5     38  32   0
+S6      0  37  31
+S7     42   0  23
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2   C3  Prov.
+  --------------------------
+S1       ·  100    0    100
+S2     100    ·    ·    100
+S3     100    ·    ·    100
+S4     100    0    ·    100
+S5       ·    ·  100    100
+S6     100    ·    ·    100
+S7       ·  100    ·    100
+  --------------------------
+Ord.   400  200  100
+Final cost: 5700

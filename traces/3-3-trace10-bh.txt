@@ -1,0 +1,282 @@
+
+=== COST MATRIX ===
+         C1   C2   C3   C4   C5   C6   C7  Prov.
+  ----------------------------------------------
+S1     300   20   15   16   17   18   20    500
+S2       1   50   24   30   22   27   19    500
+S3      50   40   30    3   25   26    3   2500
+  ----------------------------------------------
+Ord.   500  500  500  500  500  500  500
+
+Initial proposal algorithm: BH
+
+
+Penalties:
+Row S1: 1
+Row S2: 18
+Row S3: 0
+Column C1: 49
+Column C2: 20
+Column C3: 9
+Column C4: 13
+Column C5: 5
+Column C6: 8
+Column C7: 16
+
+Max penalty: 49
+Column(s) with max penalty: C1
+Chosen candidate: column 1
+Selected cell: S2, C1 (cost = 1)
+
+Penalties:
+Row S1: 1
+Row S3: 0
+Column C2: 20
+Column C3: 15
+Column C4: 13
+Column C5: 8
+Column C6: 8
+Column C7: 17
+
+Max penalty: 20
+Column(s) with max penalty: C2
+Chosen candidate: column 2
+Selected cell: S1, C2 (cost = 20)
+
+Penalties:
+Row S3: 0
+Column C3: 30
+Column C4: 3
+Column C5: 25
+Column C6: 26
+Column C7: 3
+
+Max penalty: 30
+Column(s) with max penalty: C3
+Chosen candidate: column 3
+Selected cell: S3, C3 (cost = 30)
+
+Penalties:
+Row S3: 0
+Column C4: 3
+Column C5: 25
+Column C6: 26
+Column C7: 3
+
+Max penalty: 26
+Column(s) with max penalty: C6
+Chosen candidate: column 6
+Selected cell: S3, C6 (cost = 26)
+
+Penalties:
+Row S3: 0
+Column C4: 3
+Column C5: 25
+Column C7: 3
+
+Max penalty: 25
+Column(s) with max penalty: C5
+Chosen candidate: column 5
+Selected cell: S3, C5 (cost = 25)
+
+Penalties:
+Row S3: 0
+Column C4: 3
+Column C7: 3
+
+Max penalty: 3
+Column(s) with max penalty: C4, C7
+Chosen candidate: column 4 (tie-break: first in scan order)
+Selected cell: S3, C4 (cost = 3)
+
+Penalties:
+Row S3: 3
+Column C7: 3
+
+Max penalty: 3
+Row(s) with max penalty: S3
+Column(s) with max penalty: C7
+Chosen candidate: row 3 (tie-break: first in scan order)
+Selected cell: S3, C7 (cost = 3)
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2   C3   C4   C5   C6   C7  Prov.
+  ----------------------------------------------
+S1       ·  500    ·    ·    ·    ·    ·    500
+S2     500    ·    ·    ·    ·    ·    ·    500
+S3       ·    ·  500  500  500  500  500   2500
+  ----------------------------------------------
+Ord.   500  500  500  500  500  500  500
+
+TRANSPORT GRAPH:
+S1 -- C2 (500)
+S2 -- C1 (500)
+S3 -- C3 (500)
+S3 -- C4 (500)
+S3 -- C5 (500)
+S3 -- C6 (500)
+S3 -- C7 (500)
+Initial cost: 54000
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2   C3   C4   C5   C6   C7  Prov.
+  ----------------------------------------------
+S1       ·  500    ·    ·    ·    ·    ·    500
+S2     500    ·    ·    ·    ·    ·    ·    500
+S3       ·    ·  500  500  500  500  500   2500
+  ----------------------------------------------
+Ord.   500  500  500  500  500  500  500
+
+TRANSPORT GRAPH:
+S1 -- C2 (500)
+S2 -- C1 (500)
+S3 -- C3 (500)
+S3 -- C4 (500)
+S3 -- C5 (500)
+S3 -- C6 (500)
+S3 -- C7 (500)
+Current cost: 54000
+The proposal is degenerate
+
+=== CONNECTIVITY TEST ===
+Graph is NOT connected.
+
+Connected sub-graphs:
+Subgraph 1: ['S1', 'C2']
+Subgraph 2: ['S2', 'C1']
+Subgraph 3: ['S3', 'C3', 'C4', 'C5', 'C6', 'C7']
+
+Graph not connected => we add the edges:
+Added edge: S1, C3 (cost = 15)
+
+Graph not connected => we add the edges:
+Added edge: S2, C7 (cost = 19)
+
+Graph is now connected.
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, 31, 15]
+v = [-30, 20, 15, -12, 10, 11, -12]
+
+------------POTENTIAL COSTS------------
+         C1  C2  C3   C4  C5  C6   C7
+  -----------------------------------
+S1     -30  20  15  -12  10  11  -12
+S2       1  51  46   19  41  42   19
+S3     -15  35  30    3  25  26    3
+
+------------MARGINAL COSTS------------
+         C1  C2   C3  C4   C5   C6  C7
+  ------------------------------------
+S1     330   0    0  28    7    7  32
+S2       0  -1  -22  11  -19  -15   0
+S3      65   5    0   0    0    0   0
+
+--- Checking optimality ---
+Improving edge: S2, C3 (delta = -22)
+
+Cycle found:
+[(1, 2), (1, 6), (2, 6), (2, 2), (1, 2)]
+
+=== TRANSPORTATION MAXIMIZATION ===
+
+Conditions for each box:
++ P2, C3
+- P2, C7
++ P3, C7
+- P3, C3
+
+Theta (maximum transport): 0
+
+Deleted edge(s):
+P2, C7
+
+=== APPLYING UPDATE ===
+Theta = 0
+
+Before update:
++ S2, C3 : None
+- S2, C7 : 0
++ S3, C7 : 500
+- S3, C3 : 500
+
+After update:
++ S2, C3 : 0
+- S2, C7 : 0
++ S3, C7 : 500
+- S3, C3 : 500
+
+Removed edges:
+S2, C7
+
+-----------
+ ITERATION 2
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2   C3   C4   C5   C6   C7  Prov.
+  ----------------------------------------------
+S1       ·  500    0    ·    ·    ·    ·    500
+S2     500    ·    0    ·    ·    ·    ·    500
+S3       ·    ·  500  500  500  500  500   2500
+  ----------------------------------------------
+Ord.   500  500  500  500  500  500  500
+
+TRANSPORT GRAPH:
+S1 -- C2 (500)
+S1 -- C3 (0)
+S2 -- C1 (500)
+S2 -- C3 (0)
+S3 -- C3 (500)
+S3 -- C4 (500)
+S3 -- C5 (500)
+S3 -- C6 (500)
+S3 -- C7 (500)
+Current cost: 54000
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, 9, 15]
+v = [-8, 20, 15, -12, 10, 11, -12]
+
+------------POTENTIAL COSTS------------
+        C1  C2  C3   C4  C5  C6   C7
+  ----------------------------------
+S1     -8  20  15  -12  10  11  -12
+S2      1  29  24   -3  19  20   -3
+S3      7  35  30    3  25  26    3
+
+------------MARGINAL COSTS------------
+         C1  C2  C3  C4  C5  C6  C7
+  ---------------------------------
+S1     308   0  0  28  7  7  32
+S2       0  21  0  33  3  7  22
+S3      43   5  0   0  0  0   0
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2   C3   C4   C5   C6   C7  Prov.
+  ----------------------------------------------
+S1       ·  500    0    ·    ·    ·    ·    500
+S2     500    ·    0    ·    ·    ·    ·    500
+S3       ·    ·  500  500  500  500  500   2500
+  ----------------------------------------------
+Ord.   500  500  500  500  500  500  500
+Final cost: 54000

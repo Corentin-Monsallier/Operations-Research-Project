@@ -1,0 +1,688 @@
+
+=== COST MATRIX ===
+         C1   C2   C3   C4   C5   C6   C7   C8   C9  C10  C11  C12  C13  C14  C15  C16  Prov.
+  -------------------------------------------------------------------------------------------
+S1     186  185  184  183  182  181  180  179  178  177  176  175  174  173  172  171    160
+S2     166  165  164  163  162  161  160  159  158  157  156  155  154  153  152  151    160
+S3     156  155  154  153  152  151  150  149  148  147  146  145  144  143  142  141    160
+S4     136  135  134  133  132  131  130  129  128  127  126  125  124  123  122  121    160
+S5     116  115  114  113  112  111  110  109  108  107  106  105  104  103  102  101    160
+S6      96   95   94   93   92   91   90   89   88   87   86   85   84   83   82   81    160
+S7      76   75   74   73   72   71   70   69   68   67   66   65   64   63   62   61    160
+S8      56   55   54   53   52   51   50   49   48   47   46   45   44   43   42   41    160
+S9      36   35   34   33   32   31   30   29   28   27   26   25   24   23   22   21    160
+S10     16   15   14   13   12   11   10    9    8    7    6    5    4    3    2    1    160
+  -------------------------------------------------------------------------------------------
+Ord.   100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100
+
+Initial proposal algorithm: BH
+
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Row S6: 1
+Row S7: 1
+Row S8: 1
+Row S9: 1
+Row S10: 1
+Column C1: 20
+Column C2: 20
+Column C3: 20
+Column C4: 20
+Column C5: 20
+Column C6: 20
+Column C7: 20
+Column C8: 20
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 1 (tie-break: first in scan order)
+Selected cell: S10, C1 (cost = 16)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Row S6: 1
+Row S7: 1
+Row S8: 1
+Row S9: 1
+Row S10: 1
+Column C2: 20
+Column C3: 20
+Column C4: 20
+Column C5: 20
+Column C6: 20
+Column C7: 20
+Column C8: 20
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 2 (tie-break: first in scan order)
+Selected cell: S10, C2 (cost = 15)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Row S6: 1
+Row S7: 1
+Row S8: 1
+Row S9: 1
+Column C2: 20
+Column C3: 20
+Column C4: 20
+Column C5: 20
+Column C6: 20
+Column C7: 20
+Column C8: 20
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 2 (tie-break: first in scan order)
+Selected cell: S9, C2 (cost = 35)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Row S6: 1
+Row S7: 1
+Row S8: 1
+Row S9: 1
+Column C3: 20
+Column C4: 20
+Column C5: 20
+Column C6: 20
+Column C7: 20
+Column C8: 20
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 3 (tie-break: first in scan order)
+Selected cell: S9, C3 (cost = 34)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Row S6: 1
+Row S7: 1
+Row S8: 1
+Row S9: 1
+Column C4: 20
+Column C5: 20
+Column C6: 20
+Column C7: 20
+Column C8: 20
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 4 (tie-break: first in scan order)
+Selected cell: S9, C4 (cost = 33)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Row S6: 1
+Row S7: 1
+Row S8: 1
+Column C4: 20
+Column C5: 20
+Column C6: 20
+Column C7: 20
+Column C8: 20
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 4 (tie-break: first in scan order)
+Selected cell: S8, C4 (cost = 53)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Row S6: 1
+Row S7: 1
+Row S8: 1
+Column C5: 20
+Column C6: 20
+Column C7: 20
+Column C8: 20
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 5 (tie-break: first in scan order)
+Selected cell: S8, C5 (cost = 52)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Row S6: 1
+Row S7: 1
+Column C5: 20
+Column C6: 20
+Column C7: 20
+Column C8: 20
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 5 (tie-break: first in scan order)
+Selected cell: S7, C5 (cost = 72)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Row S6: 1
+Row S7: 1
+Column C6: 20
+Column C7: 20
+Column C8: 20
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 6 (tie-break: first in scan order)
+Selected cell: S7, C6 (cost = 71)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Row S6: 1
+Row S7: 1
+Column C7: 20
+Column C8: 20
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C7, C8, C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 7 (tie-break: first in scan order)
+Selected cell: S7, C7 (cost = 70)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Row S6: 1
+Column C7: 20
+Column C8: 20
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C7, C8, C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 7 (tie-break: first in scan order)
+Selected cell: S6, C7 (cost = 90)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Row S6: 1
+Column C8: 20
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C8, C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 8 (tie-break: first in scan order)
+Selected cell: S6, C8 (cost = 89)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Column C9: 20
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C9, C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 9 (tie-break: first in scan order)
+Selected cell: S5, C9 (cost = 108)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Row S5: 1
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 10 (tie-break: first in scan order)
+Selected cell: S5, C10 (cost = 107)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Column C10: 20
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C10, C11, C12, C13, C14, C15, C16
+Chosen candidate: column 10 (tie-break: first in scan order)
+Selected cell: S4, C10 (cost = 127)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Column C11: 20
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C11, C12, C13, C14, C15, C16
+Chosen candidate: column 11 (tie-break: first in scan order)
+Selected cell: S4, C11 (cost = 126)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Row S4: 1
+Column C12: 20
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C12, C13, C14, C15, C16
+Chosen candidate: column 12 (tie-break: first in scan order)
+Selected cell: S4, C12 (cost = 125)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Column C12: 10
+Column C13: 10
+Column C14: 10
+Column C15: 10
+Column C16: 10
+
+Max penalty: 10
+Column(s) with max penalty: C12, C13, C14, C15, C16
+Chosen candidate: column 12 (tie-break: first in scan order)
+Selected cell: S3, C12 (cost = 145)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Row S3: 1
+Column C13: 10
+Column C14: 10
+Column C15: 10
+Column C16: 10
+
+Max penalty: 10
+Column(s) with max penalty: C13, C14, C15, C16
+Chosen candidate: column 13 (tie-break: first in scan order)
+Selected cell: S3, C13 (cost = 144)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Column C13: 20
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C13, C14, C15, C16
+Chosen candidate: column 13 (tie-break: first in scan order)
+Selected cell: S2, C13 (cost = 154)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Column C14: 20
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C14, C15, C16
+Chosen candidate: column 14 (tie-break: first in scan order)
+Selected cell: S2, C14 (cost = 153)
+
+Penalties:
+Row S1: 1
+Row S2: 1
+Column C15: 20
+Column C16: 20
+
+Max penalty: 20
+Column(s) with max penalty: C15, C16
+Chosen candidate: column 15 (tie-break: first in scan order)
+Selected cell: S2, C15 (cost = 152)
+
+Penalties:
+Row S1: 1
+Column C15: 172
+Column C16: 171
+
+Max penalty: 172
+Column(s) with max penalty: C15
+Chosen candidate: column 15
+Selected cell: S1, C15 (cost = 172)
+
+Penalties:
+Row S1: 171
+Column C16: 171
+
+Max penalty: 171
+Row(s) with max penalty: S1
+Column(s) with max penalty: C16
+Chosen candidate: row 1 (tie-break: first in scan order)
+Selected cell: S1, C16 (cost = 171)
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2   C3   C4   C5   C6   C7   C8   C9  C10  C11  C12  C13  C14  C15  C16  Prov.
+  -------------------------------------------------------------------------------------------
+S1       ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·   60  100    160
+S2       ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·   20  100   40    ·    160
+S3       ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·   80   80    ·    ·    ·    160
+S4       ·    ·    ·    ·    ·    ·    ·    ·    ·   40  100   20    ·    ·    ·    ·    160
+S5       ·    ·    ·    ·    ·    ·    ·    ·  100   60    ·    ·    ·    ·    ·    ·    160
+S6       ·    ·    ·    ·    ·    ·   60  100    ·    ·    ·    ·    ·    ·    ·    ·    160
+S7       ·    ·    ·    ·   20  100   40    ·    ·    ·    ·    ·    ·    ·    ·    ·    160
+S8       ·    ·    ·   80   80    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    160
+S9       ·   40  100   20    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    160
+S10    100   60    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    160
+  -------------------------------------------------------------------------------------------
+Ord.   100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100
+
+TRANSPORT GRAPH:
+S1 -- C15 (60)
+S1 -- C16 (100)
+S2 -- C13 (20)
+S2 -- C14 (100)
+S2 -- C15 (40)
+S3 -- C12 (80)
+S3 -- C13 (80)
+S4 -- C10 (40)
+S4 -- C11 (100)
+S4 -- C12 (20)
+S5 -- C9 (100)
+S5 -- C10 (60)
+S6 -- C7 (60)
+S6 -- C8 (100)
+S7 -- C5 (20)
+S7 -- C6 (100)
+S7 -- C7 (40)
+S8 -- C4 (80)
+S8 -- C5 (80)
+S9 -- C2 (40)
+S9 -- C3 (100)
+S9 -- C4 (20)
+S10 -- C1 (100)
+S10 -- C2 (60)
+Initial cost: 154400
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2   C3   C4   C5   C6   C7   C8   C9  C10  C11  C12  C13  C14  C15  C16  Prov.
+  -------------------------------------------------------------------------------------------
+S1       ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·   60  100    160
+S2       ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·   20  100   40    ·    160
+S3       ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·   80   80    ·    ·    ·    160
+S4       ·    ·    ·    ·    ·    ·    ·    ·    ·   40  100   20    ·    ·    ·    ·    160
+S5       ·    ·    ·    ·    ·    ·    ·    ·  100   60    ·    ·    ·    ·    ·    ·    160
+S6       ·    ·    ·    ·    ·    ·   60  100    ·    ·    ·    ·    ·    ·    ·    ·    160
+S7       ·    ·    ·    ·   20  100   40    ·    ·    ·    ·    ·    ·    ·    ·    ·    160
+S8       ·    ·    ·   80   80    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    160
+S9       ·   40  100   20    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    160
+S10    100   60    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    160
+  -------------------------------------------------------------------------------------------
+Ord.   100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100
+
+TRANSPORT GRAPH:
+S1 -- C15 (60)
+S1 -- C16 (100)
+S2 -- C13 (20)
+S2 -- C14 (100)
+S2 -- C15 (40)
+S3 -- C12 (80)
+S3 -- C13 (80)
+S4 -- C10 (40)
+S4 -- C11 (100)
+S4 -- C12 (20)
+S5 -- C9 (100)
+S5 -- C10 (60)
+S6 -- C7 (60)
+S6 -- C8 (100)
+S7 -- C5 (20)
+S7 -- C6 (100)
+S7 -- C7 (40)
+S8 -- C4 (80)
+S8 -- C5 (80)
+S9 -- C2 (40)
+S9 -- C3 (100)
+S9 -- C4 (20)
+S10 -- C1 (100)
+S10 -- C2 (60)
+Current cost: 154400
+The proposal is degenerate
+
+=== CONNECTIVITY TEST ===
+Graph is NOT connected.
+
+Connected sub-graphs:
+Subgraph 1: ['S1', 'C15', 'C16', 'S2', 'C13', 'C14', 'S3', 'C12', 'S4', 'C10', 'C11', 'S5', 'C9']
+Subgraph 2: ['S6', 'C7', 'C8', 'S7', 'C5', 'C6', 'S8', 'C4', 'S9', 'C2', 'C3', 'S10', 'C1']
+
+Graph not connected => we add the edges:
+Added edge: S10, C16 (cost = 1)
+
+Graph is now connected.
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, -20, -30, -50, -70, -90, -110, -130, -150, -170]
+v = [186, 185, 184, 183, 182, 181, 180, 179, 178, 177, 176, 175, 174, 173, 172, 171]
+
+------------POTENTIAL COSTS------------
+         C1   C2   C3   C4   C5   C6   C7   C8   C9  C10  C11  C12  C13  C14  C15  C16
+  ------------------------------------------------------------------------------------
+S1     186  185  184  183  182  181  180  179  178  177  176  175  174  173  172  171
+S2     166  165  164  163  162  161  160  159  158  157  156  155  154  153  152  151
+S3     156  155  154  153  152  151  150  149  148  147  146  145  144  143  142  141
+S4     136  135  134  133  132  131  130  129  128  127  126  125  124  123  122  121
+S5     116  115  114  113  112  111  110  109  108  107  106  105  104  103  102  101
+S6      96   95   94   93   92   91   90   89   88   87   86   85   84   83   82   81
+S7      76   75   74   73   72   71   70   69   68   67   66   65   64   63   62   61
+S8      56   55   54   53   52   51   50   49   48   47   46   45   44   43   42   41
+S9      36   35   34   33   32   31   30   29   28   27   26   25   24   23   22   21
+S10     16   15   14   13   12   11   10    9    8    7    6    5    4    3    2    1
+
+------------MARGINAL COSTS------------
+        C1  C2  C3  C4  C5  C6  C7  C8  C9  C10  C11  C12  C13  C14  C15  C16
+  ---------------------------------------------------------------------------
+S1     0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+S2     0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+S3     0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+S4     0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+S5     0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+S6     0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+S7     0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+S8     0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+S9     0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+S10    0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2   C3   C4   C5   C6   C7   C8   C9  C10  C11  C12  C13  C14  C15  C16  Prov.
+  -------------------------------------------------------------------------------------------
+S1       ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·   60  100    160
+S2       ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·   20  100   40    ·    160
+S3       ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·   80   80    ·    ·    ·    160
+S4       ·    ·    ·    ·    ·    ·    ·    ·    ·   40  100   20    ·    ·    ·    ·    160
+S5       ·    ·    ·    ·    ·    ·    ·    ·  100   60    ·    ·    ·    ·    ·    ·    160
+S6       ·    ·    ·    ·    ·    ·   60  100    ·    ·    ·    ·    ·    ·    ·    ·    160
+S7       ·    ·    ·    ·   20  100   40    ·    ·    ·    ·    ·    ·    ·    ·    ·    160
+S8       ·    ·    ·   80   80    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    160
+S9       ·   40  100   20    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    160
+S10    100   60    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    ·    0    160
+  -------------------------------------------------------------------------------------------
+Ord.   100  100  100  100  100  100  100  100  100  100  100  100  100  100  100  100
+Final cost: 154400

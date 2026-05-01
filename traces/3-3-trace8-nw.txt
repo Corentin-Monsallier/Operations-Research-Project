@@ -1,0 +1,287 @@
+
+=== COST MATRIX ===
+         C1   C2  Prov.
+  ---------------------
+S1      50   20    100
+S2      10   50    200
+S3      55   40    100
+S4      35   45    200
+S5      12    8    200
+  ---------------------
+Ord.   300  500
+
+Initial proposal algorithm: NW
+
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1     100    ·    100
+S2     200    ·    200
+S3       ·  100    100
+S4       ·  200    200
+S5       ·  200    200
+  ---------------------
+Ord.   300  500
+
+TRANSPORT GRAPH:
+S1 -- C1 (100)
+S2 -- C1 (200)
+S3 -- C2 (100)
+S4 -- C2 (200)
+S5 -- C2 (200)
+Initial cost: 21600
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1     100    ·    100
+S2     200    ·    200
+S3       ·  100    100
+S4       ·  200    200
+S5       ·  200    200
+  ---------------------
+Ord.   300  500
+
+TRANSPORT GRAPH:
+S1 -- C1 (100)
+S2 -- C1 (200)
+S3 -- C2 (100)
+S4 -- C2 (200)
+S5 -- C2 (200)
+Current cost: 21600
+The proposal is degenerate
+
+=== CONNECTIVITY TEST ===
+Graph is NOT connected.
+
+Connected sub-graphs:
+Subgraph 1: ['S1', 'C1', 'S2']
+Subgraph 2: ['S3', 'C2', 'S4', 'S5']
+
+Graph not connected => we add the edges:
+Added edge: S5, C1 (cost = 12)
+
+Graph is now connected.
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, -40, -6, -1, -38]
+v = [50, 46]
+
+------------POTENTIAL COSTS------------
+        C1  C2
+  ------------
+S1     50  46
+S2     10   6
+S3     44  40
+S4     49  45
+S5     12   8
+
+------------MARGINAL COSTS------------
+         C1   C2
+  --------------
+S1       0  -26
+S2       0   44
+S3      11    0
+S4     -14    0
+S5       0    0
+
+--- Checking optimality ---
+Improving edge: S1, C2 (delta = -26)
+
+Cycle found:
+[(0, 1), (0, 0), (4, 0), (4, 1), (0, 1)]
+
+=== TRANSPORTATION MAXIMIZATION ===
+
+Conditions for each box:
++ P1, C2
+- P1, C1
++ P5, C1
+- P5, C2
+
+Theta (maximum transport): 100
+
+Deleted edge(s):
+P1, C1
+
+=== APPLYING UPDATE ===
+Theta = 100
+
+Before update:
++ S1, C2 : None
+- S1, C1 : 100
++ S5, C1 : 0
+- S5, C2 : 200
+
+After update:
++ S1, C2 : 100
+- S1, C1 : 0
++ S5, C1 : 100
+- S5, C2 : 100
+
+Removed edges:
+S1, C1
+
+-----------
+ ITERATION 2
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       ·  100    100
+S2     200    ·    200
+S3       ·  100    100
+S4       ·  200    200
+S5     100  100    200
+  ---------------------
+Ord.   300  500
+
+TRANSPORT GRAPH:
+S1 -- C2 (100)
+S2 -- C1 (200)
+S3 -- C2 (100)
+S4 -- C2 (200)
+S5 -- C1 (100)
+S5 -- C2 (100)
+Current cost: 19000
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, -14, 20, 25, -12]
+v = [24, 20]
+
+------------POTENTIAL COSTS------------
+        C1  C2
+  ------------
+S1     24  20
+S2     10   6
+S3     44  40
+S4     49  45
+S5     12   8
+
+------------MARGINAL COSTS------------
+         C1  C2
+  -------------
+S1      26   0
+S2       0  44
+S3      11   0
+S4     -14   0
+S5       0   0
+
+--- Checking optimality ---
+Improving edge: S4, C1 (delta = -14)
+
+Cycle found:
+[(3, 0), (3, 1), (4, 1), (4, 0), (3, 0)]
+
+=== TRANSPORTATION MAXIMIZATION ===
+
+Conditions for each box:
++ P4, C1
+- P4, C2
++ P5, C2
+- P5, C1
+
+Theta (maximum transport): 100
+
+Deleted edge(s):
+P5, C1
+
+=== APPLYING UPDATE ===
+Theta = 100
+
+Before update:
++ S4, C1 : None
+- S4, C2 : 200
++ S5, C2 : 100
+- S5, C1 : 100
+
+After update:
++ S4, C1 : 100
+- S4, C2 : 100
++ S5, C2 : 200
+- S5, C1 : 0
+
+Removed edges:
+S5, C1
+
+-----------
+ ITERATION 3
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       ·  100    100
+S2     200    ·    200
+S3       ·  100    100
+S4     100  100    200
+S5       ·  200    200
+  ---------------------
+Ord.   300  500
+
+TRANSPORT GRAPH:
+S1 -- C2 (100)
+S2 -- C1 (200)
+S3 -- C2 (100)
+S4 -- C1 (100)
+S4 -- C2 (100)
+S5 -- C2 (200)
+Current cost: 17600
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, 0, 20, 25, -12]
+v = [10, 20]
+
+------------POTENTIAL COSTS------------
+        C1  C2
+  ------------
+S1     10  20
+S2     10  20
+S3     30  40
+S4     35  45
+S5     -2   8
+
+------------MARGINAL COSTS------------
+        C1  C2
+  ------------
+S1     40   0
+S2      0  30
+S3     25   0
+S4      0   0
+S5     14   0
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       ·  100    100
+S2     200    ·    200
+S3       ·  100    100
+S4     100  100    200
+S5       ·  200    200
+  ---------------------
+Ord.   300  500
+Final cost: 17600

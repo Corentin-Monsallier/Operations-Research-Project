@@ -1,3 +1,4 @@
+
 === COST MATRIX ===
          C1   C2  Prov.
   ---------------------
@@ -6,10 +7,8 @@ S2      10   50    100
   ---------------------
 Ord.   100  100
 
-Choose initial solution method:
-1. North-West
-2. Balas-Hammer
-Choice: 2
+Initial proposal algorithm: BH
+
 
 Penalties:
 Row S1: 10
@@ -17,22 +16,19 @@ Row S2: 40
 Column C1: 20
 Column C2: 30
 
-Max penalty: 40 on row 2
-Selected cell: S2, C2 (cost = 50)
-
-Penalties:
-Row S1: 10
-Column C1: 30
-Column C2: 20
-
-Max penalty: 30 on column 1
-Selected cell: S1, C2 (cost = 20)
+Max penalty: 40
+Row(s) with max penalty: S2
+Chosen candidate: row 2
+Selected cell: S2, C1 (cost = 10)
 
 Penalties:
 Row S1: 20
 Column C2: 20
 
-Max penalty: 20 on row 1
+Max penalty: 20
+Row(s) with max penalty: S1
+Column(s) with max penalty: C2
+Chosen candidate: row 1 (tie-break: first in scan order)
 Selected cell: S1, C2 (cost = 20)
 
 --- INITIAL PROPOSAL ---
@@ -40,13 +36,12 @@ Selected cell: S1, C2 (cost = 20)
 -----------------TRANSPORT PROPOSAL------------------
          C1   C2  Prov.
   ---------------------
-S1       0  100    100
-S2     100    Â·    100
+S1       ·  100    100
+S2     100    ·    100
   ---------------------
 Ord.   100  100
 
 TRANSPORT GRAPH:
-S1 -- C1 (0)
 S1 -- C2 (100)
 S2 -- C1 (100)
 Initial cost: 3000
@@ -58,21 +53,31 @@ Initial cost: 3000
 -----------------TRANSPORT PROPOSAL------------------
          C1   C2  Prov.
   ---------------------
-S1       0  100    100
-S2     100    Â·    100
+S1       ·  100    100
+S2     100    ·    100
   ---------------------
 Ord.   100  100
 
 TRANSPORT GRAPH:
-S1 -- C1 (0)
 S1 -- C2 (100)
 S2 -- C1 (100)
 Current cost: 3000
+The proposal is degenerate
+
+=== CONNECTIVITY TEST ===
+Graph is NOT connected.
+
+Connected sub-graphs:
+Subgraph 1: ['S1', 'C2']
+Subgraph 2: ['S2', 'C1']
+
+Graph not connected => we add the edges:
+Added edge: S1, C1 (cost = 30)
+
+Graph is now connected.
 
 === CONNECTIVITY TEST ===
 Graph is already connected.
-
-Graph is now connected.
 
 Potentials:
 u = [0, -20]
@@ -101,7 +106,7 @@ S2     0  50
          C1   C2  Prov.
   ---------------------
 S1       0  100    100
-S2     100    Â·    100
+S2     100    ·    100
   ---------------------
 Ord.   100  100
 Final cost: 3000

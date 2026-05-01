@@ -1,0 +1,152 @@
+
+=== COST MATRIX ===
+         C1   C2  Prov.
+  ---------------------
+S1      50   20    100
+S2      10   50    200
+S3      50   40    100
+S4      45   35    200
+  ---------------------
+Ord.   300  300
+
+Initial proposal algorithm: BH
+
+
+Penalties:
+Row S1: 30
+Row S2: 40
+Row S3: 10
+Row S4: 10
+Column C1: 35
+Column C2: 15
+
+Max penalty: 40
+Row(s) with max penalty: S2
+Chosen candidate: row 2
+Selected cell: S2, C1 (cost = 10)
+
+Penalties:
+Row S1: 30
+Row S3: 10
+Row S4: 10
+Column C1: 5
+Column C2: 15
+
+Max penalty: 30
+Row(s) with max penalty: S1
+Chosen candidate: row 1
+Selected cell: S1, C2 (cost = 20)
+
+Penalties:
+Row S3: 10
+Row S4: 10
+Column C1: 5
+Column C2: 5
+
+Max penalty: 10
+Row(s) with max penalty: S3, S4
+Chosen candidate: row 3 (tie-break: first in scan order)
+Selected cell: S3, C2 (cost = 40)
+
+Penalties:
+Row S4: 10
+Column C1: 45
+Column C2: 35
+
+Max penalty: 45
+Column(s) with max penalty: C1
+Chosen candidate: column 1
+Selected cell: S4, C1 (cost = 45)
+
+Penalties:
+Row S4: 35
+Column C2: 35
+
+Max penalty: 35
+Row(s) with max penalty: S4
+Column(s) with max penalty: C2
+Chosen candidate: row 4 (tie-break: first in scan order)
+Selected cell: S4, C2 (cost = 35)
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       ·  100    100
+S2     200    ·    200
+S3       ·  100    100
+S4     100  100    200
+  ---------------------
+Ord.   300  300
+
+TRANSPORT GRAPH:
+S1 -- C2 (100)
+S2 -- C1 (200)
+S3 -- C2 (100)
+S4 -- C1 (100)
+S4 -- C2 (100)
+Initial cost: 16000
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       ·  100    100
+S2     200    ·    200
+S3       ·  100    100
+S4     100  100    200
+  ---------------------
+Ord.   300  300
+
+TRANSPORT GRAPH:
+S1 -- C2 (100)
+S2 -- C1 (200)
+S3 -- C2 (100)
+S4 -- C1 (100)
+S4 -- C2 (100)
+Current cost: 16000
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, -20, 20, 15]
+v = [30, 20]
+
+------------POTENTIAL COSTS------------
+        C1  C2
+  ------------
+S1     30  20
+S2     10   0
+S3     50  40
+S4     45  35
+
+------------MARGINAL COSTS------------
+        C1  C2
+  ------------
+S1     20   0
+S2      0  50
+S3      0   0
+S4      0   0
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1       ·  100    100
+S2     200    ·    200
+S3       ·  100    100
+S4     100  100    200
+  ---------------------
+Ord.   300  300
+Final cost: 16000

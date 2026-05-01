@@ -1,0 +1,111 @@
+
+=== COST MATRIX ===
+         C1    C2  Prov.
+  ----------------------
+S1      30    20    600
+S2      10    50    500
+  ----------------------
+Ord.   100  1000
+
+Initial proposal algorithm: BH
+
+
+Penalties:
+Row S1: 10
+Row S2: 40
+Column C1: 20
+Column C2: 30
+
+Max penalty: 40
+Row(s) with max penalty: S2
+Chosen candidate: row 2
+Selected cell: S2, C1 (cost = 10)
+
+Penalties:
+Row S1: 20
+Row S2: 50
+Column C2: 30
+
+Max penalty: 50
+Row(s) with max penalty: S2
+Chosen candidate: row 2
+Selected cell: S2, C2 (cost = 50)
+
+Penalties:
+Row S1: 20
+Column C2: 20
+
+Max penalty: 20
+Row(s) with max penalty: S1
+Column(s) with max penalty: C2
+Chosen candidate: row 1 (tie-break: first in scan order)
+Selected cell: S1, C2 (cost = 20)
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1    C2  Prov.
+  ----------------------
+S1       ·   600    600
+S2     100   400    500
+  ----------------------
+Ord.   100  1000
+
+TRANSPORT GRAPH:
+S1 -- C2 (600)
+S2 -- C1 (100)
+S2 -- C2 (400)
+Initial cost: 33000
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1    C2  Prov.
+  ----------------------
+S1       ·   600    600
+S2     100   400    500
+  ----------------------
+Ord.   100  1000
+
+TRANSPORT GRAPH:
+S1 -- C2 (600)
+S2 -- C1 (100)
+S2 -- C2 (400)
+Current cost: 33000
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, 30]
+v = [-20, 20]
+
+------------POTENTIAL COSTS------------
+         C1  C2
+  -------------
+S1     -20  20
+S2      10  50
+
+------------MARGINAL COSTS------------
+        C1  C2
+  ------------
+S1     50  0
+S2      0  0
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1    C2  Prov.
+  ----------------------
+S1       ·   600    600
+S2     100   400    500
+  ----------------------
+Ord.   100  1000
+Final cost: 33000

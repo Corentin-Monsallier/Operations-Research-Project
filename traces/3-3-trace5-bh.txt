@@ -1,0 +1,147 @@
+
+=== COST MATRIX ===
+        C1  C2  C3  Prov.
+  -----------------------
+S1      5   7   8     25
+S2      6   8   5     25
+S3      6   7   7     25
+  -----------------------
+Ord.   35  20  20
+
+Initial proposal algorithm: BH
+
+
+Penalties:
+Row S1: 2
+Row S2: 1
+Row S3: 1
+Column C1: 1
+Column C2: 0
+Column C3: 2
+
+Max penalty: 2
+Row(s) with max penalty: S1
+Column(s) with max penalty: C3
+Chosen candidate: row 1 (tie-break: first in scan order)
+Selected cell: S1, C1 (cost = 5)
+
+Penalties:
+Row S2: 1
+Row S3: 1
+Column C1: 0
+Column C2: 1
+Column C3: 2
+
+Max penalty: 2
+Column(s) with max penalty: C3
+Chosen candidate: column 3
+Selected cell: S2, C3 (cost = 5)
+
+Penalties:
+Row S2: 2
+Row S3: 1
+Column C1: 0
+Column C2: 1
+
+Max penalty: 2
+Row(s) with max penalty: S2
+Chosen candidate: row 2
+Selected cell: S2, C1 (cost = 6)
+
+Penalties:
+Row S3: 1
+Column C1: 6
+Column C2: 7
+
+Max penalty: 7
+Column(s) with max penalty: C2
+Chosen candidate: column 2
+Selected cell: S3, C2 (cost = 7)
+
+Penalties:
+Row S3: 6
+Column C1: 6
+
+Max penalty: 6
+Row(s) with max penalty: S3
+Column(s) with max penalty: C1
+Chosen candidate: row 3 (tie-break: first in scan order)
+Selected cell: S3, C1 (cost = 6)
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+        C1  C2  C3  Prov.
+  -----------------------
+S1     25   ·   ·     25
+S2      5   ·  20     25
+S3      5  20   ·     25
+  -----------------------
+Ord.   35  20  20
+
+TRANSPORT GRAPH:
+S1 -- C1 (25)
+S2 -- C1 (5)
+S2 -- C3 (20)
+S3 -- C1 (5)
+S3 -- C2 (20)
+Initial cost: 425
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+        C1  C2  C3  Prov.
+  -----------------------
+S1     25   ·   ·     25
+S2      5   ·  20     25
+S3      5  20   ·     25
+  -----------------------
+Ord.   35  20  20
+
+TRANSPORT GRAPH:
+S1 -- C1 (25)
+S2 -- C1 (5)
+S2 -- C3 (20)
+S3 -- C1 (5)
+S3 -- C2 (20)
+Current cost: 425
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, 1, 1]
+v = [5, 6, 4]
+
+------------POTENTIAL COSTS------------
+        C1  C2  C3
+  ----------------
+S1     5  6  4
+S2     6  7  5
+S3     6  7  5
+
+------------MARGINAL COSTS------------
+        C1  C2  C3
+  ----------------
+S1     0  1  4
+S2     0  1  0
+S3     0  0  2
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+        C1  C2  C3  Prov.
+  -----------------------
+S1     25   ·   ·     25
+S2      5   ·  20     25
+S3      5  20   ·     25
+  -----------------------
+Ord.   35  20  20
+Final cost: 425

@@ -1,0 +1,91 @@
+
+=== COST MATRIX ===
+         C1   C2  Prov.
+  ---------------------
+S1      10   20    100
+S2      30   10    100
+  ---------------------
+Ord.   100  100
+
+Initial proposal algorithm: NW
+
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1     100    ·    100
+S2       ·  100    100
+  ---------------------
+Ord.   100  100
+
+TRANSPORT GRAPH:
+S1 -- C1 (100)
+S2 -- C2 (100)
+Initial cost: 2000
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1     100    ·    100
+S2       ·  100    100
+  ---------------------
+Ord.   100  100
+
+TRANSPORT GRAPH:
+S1 -- C1 (100)
+S2 -- C2 (100)
+Current cost: 2000
+The proposal is degenerate
+
+=== CONNECTIVITY TEST ===
+Graph is NOT connected.
+
+Connected sub-graphs:
+Subgraph 1: ['S1', 'C1']
+Subgraph 2: ['S2', 'C2']
+
+Graph not connected => we add the edges:
+Added edge: S1, C2 (cost = 20)
+
+Graph is now connected.
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, -10]
+v = [10, 20]
+
+------------POTENTIAL COSTS------------
+        C1  C2
+  ------------
+S1     10  20
+S2      0  10
+
+------------MARGINAL COSTS------------
+        C1  C2
+  ------------
+S1      0  0
+S2     30  0
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+         C1   C2  Prov.
+  ---------------------
+S1     100    0    100
+S2       ·  100    100
+  ---------------------
+Ord.   100  100
+Final cost: 2000

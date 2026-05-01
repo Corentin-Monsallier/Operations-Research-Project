@@ -1,0 +1,248 @@
+
+=== COST MATRIX ===
+        C1  C2  C3  Prov.
+  -----------------------
+S1      5   7   8     25
+S2      6   8   5     25
+S3      6   7   7     25
+  -----------------------
+Ord.   35  20  20
+
+Initial proposal algorithm: NW
+
+
+--- INITIAL PROPOSAL ---
+
+-----------------TRANSPORT PROPOSAL------------------
+        C1  C2  C3  Prov.
+  -----------------------
+S1     25   ·   ·     25
+S2     10  15   ·     25
+S3      ·   5  20     25
+  -----------------------
+Ord.   35  20  20
+
+TRANSPORT GRAPH:
+S1 -- C1 (25)
+S2 -- C1 (10)
+S2 -- C2 (15)
+S3 -- C2 (5)
+S3 -- C3 (20)
+Initial cost: 480
+
+-----------
+ ITERATION 1
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+        C1  C2  C3  Prov.
+  -----------------------
+S1     25   ·   ·     25
+S2     10  15   ·     25
+S3      ·   5  20     25
+  -----------------------
+Ord.   35  20  20
+
+TRANSPORT GRAPH:
+S1 -- C1 (25)
+S2 -- C1 (10)
+S2 -- C2 (15)
+S3 -- C2 (5)
+S3 -- C3 (20)
+Current cost: 480
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, 1, 0]
+v = [5, 7, 7]
+
+------------POTENTIAL COSTS------------
+        C1  C2  C3
+  ----------------
+S1     5  7  7
+S2     6  8  8
+S3     5  7  7
+
+------------MARGINAL COSTS------------
+        C1  C2  C3
+  ----------------
+S1     0  0   1
+S2     0  0  -3
+S3     1  0   0
+
+--- Checking optimality ---
+Improving edge: S2, C3 (delta = -3)
+
+Cycle found:
+[(1, 2), (1, 1), (2, 1), (2, 2), (1, 2)]
+
+=== TRANSPORTATION MAXIMIZATION ===
+
+Conditions for each box:
++ P2, C3
+- P2, C2
++ P3, C2
+- P3, C3
+
+Theta (maximum transport): 15
+
+Deleted edge(s):
+P2, C2
+
+=== APPLYING UPDATE ===
+Theta = 15
+
+Before update:
++ S2, C3 : None
+- S2, C2 : 15
++ S3, C2 : 5
+- S3, C3 : 20
+
+After update:
++ S2, C3 : 15
+- S2, C2 : 0
++ S3, C2 : 20
+- S3, C3 : 5
+
+Removed edges:
+S2, C2
+
+-----------
+ ITERATION 2
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+        C1  C2  C3  Prov.
+  -----------------------
+S1     25   ·   ·     25
+S2     10   ·  15     25
+S3      ·  20   5     25
+  -----------------------
+Ord.   35  20  20
+
+TRANSPORT GRAPH:
+S1 -- C1 (25)
+S2 -- C1 (10)
+S2 -- C3 (15)
+S3 -- C2 (20)
+S3 -- C3 (5)
+Current cost: 435
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, 1, 3]
+v = [5, 4, 4]
+
+------------POTENTIAL COSTS------------
+        C1  C2  C3
+  ----------------
+S1     5  4  4
+S2     6  5  5
+S3     8  7  7
+
+------------MARGINAL COSTS------------
+        C1  C2  C3
+  ----------------
+S1      0  3  4
+S2      0  3  0
+S3     -2  0  0
+
+--- Checking optimality ---
+Improving edge: S3, C1 (delta = -2)
+
+Cycle found:
+[(2, 0), (2, 2), (1, 2), (1, 0), (2, 0)]
+
+=== TRANSPORTATION MAXIMIZATION ===
+
+Conditions for each box:
++ P3, C1
+- P3, C3
++ P2, C3
+- P2, C1
+
+Theta (maximum transport): 5
+
+Deleted edge(s):
+P3, C3
+
+=== APPLYING UPDATE ===
+Theta = 5
+
+Before update:
++ S3, C1 : None
+- S3, C3 : 5
++ S2, C3 : 15
+- S2, C1 : 10
+
+After update:
++ S3, C1 : 5
+- S3, C3 : 0
++ S2, C3 : 20
+- S2, C1 : 5
+
+Removed edges:
+S3, C3
+
+-----------
+ ITERATION 3
+-----------
+
+-----------------TRANSPORT PROPOSAL------------------
+        C1  C2  C3  Prov.
+  -----------------------
+S1     25   ·   ·     25
+S2      5   ·  20     25
+S3      5  20   ·     25
+  -----------------------
+Ord.   35  20  20
+
+TRANSPORT GRAPH:
+S1 -- C1 (25)
+S2 -- C1 (5)
+S2 -- C3 (20)
+S3 -- C1 (5)
+S3 -- C2 (20)
+Current cost: 425
+
+=== CONNECTIVITY TEST ===
+Graph is already connected.
+
+Potentials:
+u = [0, 1, 1]
+v = [5, 6, 4]
+
+------------POTENTIAL COSTS------------
+        C1  C2  C3
+  ----------------
+S1     5  6  4
+S2     6  7  5
+S3     6  7  5
+
+------------MARGINAL COSTS------------
+        C1  C2  C3
+  ----------------
+S1     0  1  4
+S2     0  1  0
+S3     0  0  2
+
+--- Checking optimality ---
+=> IT IS THE OPTIMAL SOLUTION
+
+===============
+ FINAL SOLUTION 
+===============
+
+-----------------TRANSPORT PROPOSAL------------------
+        C1  C2  C3  Prov.
+  -----------------------
+S1     25   ·   ·     25
+S2      5   ·  20     25
+S3      5  20   ·     25
+  -----------------------
+Ord.   35  20  20
+Final cost: 425
