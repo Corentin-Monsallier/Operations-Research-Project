@@ -82,15 +82,22 @@ def main():
             if is_degenerate(problem, proposal):
                 print("The proposal is degenerate")
 
-            # Connectivity
-            test_connectivity(proposal)
+            # Modify the transport graph until we get a tree
+            while True:
+                cycle = detect_cycle(proposal)
+                if cycle:
+                    print("Graph contains a cycle.")
+                    transportation_maximization(proposal, cycle)
+                    update_proposal(proposal, cycle)
+                    continue
 
-            # Fix if not connected
-            proposal = connect_graph(problem, proposal)
+                test_connectivity(proposal)
+                graph = build_graph(proposal)
 
-            graph = build_graph(proposal)
-            if detect_cycle(graph):
-                print("Graph contains a cycle.")
+                if len(find_connected_components(graph)) == 1:
+                    break
+
+                proposal = connect_graph(problem, proposal)
 
             # Potentials
             u, v = compute_potentials(problem, proposal)

@@ -42,11 +42,7 @@ def balas_hammer(problem):
     active_cols = list(range(m))
 
     while active_rows and active_cols:
-
-        best_penalty = -1
-        best_is_row = True
-        best_idx = None
-        best_cell = None
+        candidates = []
 
         print("\nPenalties:")
 
@@ -57,11 +53,13 @@ def balas_hammer(problem):
 
             print(f"Row S{i+1}: {penalty}")
 
-            if penalty is not None and penalty > best_penalty:
-                best_penalty = penalty
-                best_is_row = True
-                best_idx = i
-                best_cell = min_cell
+            if penalty is not None:
+                candidates.append({
+                    "kind": "row",
+                    "idx": i,
+                    "penalty": penalty,
+                    "cell": min_cell,
+                })
 
         # Check column penalties
         for j in active_cols:
@@ -70,18 +68,51 @@ def balas_hammer(problem):
 
             print(f"Column C{j+1}: {penalty}")
 
-            if penalty is not None and penalty > best_penalty:
-                best_penalty = penalty
-                best_is_row = False
-                best_idx = j
-                best_cell = min_cell
+            if penalty is not None:
+                candidates.append({
+                    "kind": "column",
+                    "idx": j,
+                    "penalty": penalty,
+                    "cell": min_cell,
+                })
 
-        best_select = "row" if best_is_row else "column"
-        print(f"\nMax penalty: {best_penalty} on {best_select} {best_idx+1}")
-        print(f"Selected cell: S{i+1}, C{j+1} (cost = {costs[i][j]})")
+        best_penalty = max(candidate["penalty"] for candidate in candidates)
+        best_candidates = [
+            candidate for candidate in candidates
+            if candidate["penalty"] == best_penalty
+        ]
+        best_candidate = best_candidates[0]
+        best_select = best_candidate["kind"]
+        best_idx = best_candidate["idx"]
+
+        row_labels = [
+            f"S{candidate['idx']+1}"
+            for candidate in best_candidates
+            if candidate["kind"] == "row"
+        ]
+        col_labels = [
+            f"C{candidate['idx']+1}"
+            for candidate in best_candidates
+            if candidate["kind"] == "column"
+        ]
+
+        print(f"\nMax penalty: {best_penalty}")
+        if row_labels:
+            print("Row(s) with max penalty: " + ", ".join(row_labels))
+        if col_labels:
+            print("Column(s) with max penalty: " + ", ".join(col_labels))
+        if len(best_candidates) > 1:
+            print(
+                f"Chosen candidate: {best_select} {best_idx+1} "
+                "(tie-break: first in scan order)"
+            )
+        else:
+            print(f"Chosen candidate: {best_select} {best_idx+1}")
+
         # Allocation on selected cell
         # choice of edge
-        _, i, j = best_cell
+        _, i, j = best_candidate["cell"]
+        print(f"Selected cell: S{i+1}, C{j+1} (cost = {costs[i][j]})")
         qty = min(provisions[i], orders[j])
         proposal[i][j] = qty
 
@@ -90,7 +121,8 @@ def balas_hammer(problem):
 
         # Remove satisfied row or column
         if provisions[i] == 0 and orders[j] == 0:
-            active_rows.remove(i)   # degenerate case
+            active_rows.remove(i)
+            active_cols.remove(j)
         elif provisions[i] == 0:
             active_rows.remove(i)
         else:

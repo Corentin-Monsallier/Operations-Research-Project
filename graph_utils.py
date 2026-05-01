@@ -89,6 +89,10 @@ def find_connected_components(graph):
     return components
 
 
+def _display_node(node):
+    return f"{node[0]}{int(node[1:]) + 1}"
+
+
 # --------------------------------------------------
 # CONNECT GRAPH (FIX NON-CONNECTED)
 # --------------------------------------------------
@@ -171,9 +175,6 @@ def test_connectivity(proposal):
 
             readable = []
             for node in comp:
-                if node.startswith("S"):
-                    readable.append(f"S{int(node[1])+1}")
-                else:
-                    readable.append(f"C{int(node[1])+1}")
+                readable.append(_display_node(node))
 
             print(readable)

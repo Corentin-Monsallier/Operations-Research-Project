@@ -96,38 +96,131 @@ def find_improving_cell(problem, u, v, proposal):
 
     return best_cell, best_value
 
-# Test acyclic
-def detect_cycle(graph):
+def _node_to_index(node):
+    return int(node[1:])
+
+
+def _edge_to_cell(node_a, node_b):
+    if node_a.startswith("S"):
+        return (_node_to_index(node_a), _node_to_index(node_b))
+    return (_node_to_index(node_b), _node_to_index(node_a))
+
+
+def _node_path_to_cells(node_path):
+    return [
+        _edge_to_cell(node_path[k], node_path[k + 1])
+        for k in range(len(node_path) - 1)
+    ]
+
+
+def _rotate_cycle(cycle, start_idx):
+    cells = cycle[:-1]
+    rotated = cells[start_idx:] + cells[:start_idx]
+    return rotated + [rotated[0]]
+
+
+def _prefer_zero_on_minus(proposal, cycle):
+    """
+    When we correct an already-basic cycle, we prefer an orientation that puts
+    a zero-valued edge on a '-' position so the cycle can be broken without
+    changing the transported quantities.
+    """
+    cells = cycle[:-1]
+
+    for start_idx in range(len(cells)):
+        rotated = _rotate_cycle(cycle, start_idx)
+        minus_cells = [rotated[k] for k in range(1, len(rotated) - 1, 2)]
+        if any(proposal[i][j] == 0 for i, j in minus_cells):
+            return rotated
+
+    return cycle
+
+
+def _find_node_path(graph, start, goal):
+    queue = deque([start])
+    parents = {start: None}
+
+    while queue:
+        node = queue.popleft()
+
+        if node == goal:
+            break
+
+        for neighbor in graph[node]:
+            if neighbor not in parents:
+                parents[neighbor] = node
+                queue.append(neighbor)
+
+    if goal not in parents:
+        return None
+
+    path = []
+    node = goal
+
+    while node is not None:
+        path.append(node)
+        node = parents[node]
+
+    path.reverse()
+    return path
+
+
+def _find_cycle_node_path(graph):
     visited = set()
+    stack = set()
+    parents = {}
+
+    def dfs(node, parent):
+        visited.add(node)
+        stack.add(node)
+        parents[node] = parent
+
+        for neighbor in graph[node]:
+            if neighbor == parent:
+                continue
+
+            if neighbor not in visited:
+                cycle = dfs(neighbor, node)
+                if cycle is not None:
+                    return cycle
+            elif neighbor in stack:
+                path = []
+                current = node
+
+                while current != neighbor:
+                    path.append(current)
+                    current = parents[current]
+
+                path.reverse()
+                return [neighbor] + path + [neighbor]
+
+        stack.remove(node)
+        return None
 
     for start in graph:
         if start not in visited:
-            queue = deque([(start, None)])
-            parent_map = {start: None}
+            cycle = dfs(start, None)
+            if cycle is not None:
+                return cycle
 
-            while queue:
-                node, parent = queue.popleft()
+    return None
 
-                if node in visited:
-                    # reconstruct cycle
-                    cycle = [node]
-                    p = parent
-                    while p and p not in cycle:
-                        cycle.append(p)
-                        p = parent_map[p]
-                    cycle.append(node)
 
-                    print("Cycle found:", cycle)
-                    return True
+# Test acyclic
+def detect_cycle(proposal):
+    graph = build_graph(proposal)
+    node_cycle = _find_cycle_node_path(graph)
 
-                visited.add(node)
+    if node_cycle is None:
+        return None
 
-                for neighbor in graph[node]:
-                    if neighbor != parent:
-                        parent_map[neighbor] = node
-                        queue.append((neighbor, node))
+    cycle_cells = _node_path_to_cells(node_cycle)
+    cycle = cycle_cells + [cycle_cells[0]]
+    cycle = _prefer_zero_on_minus(proposal, cycle)
 
-    return False
+    print("\nCycle found:")
+    print(cycle)
+    return cycle
 
 def transportation_maximization(proposal, cycle):
     """
@@ -152,7 +245,7 @@ def transportation_maximization(proposal, cycle):
 
     minus_cells = []  # store cells with '-' sign
 
-    for k, (i, j) in enumerate(cycle):
+    for k, (i, j) in enumerate(cycle[:-1]):
         if k % 2 == 0:
             sign = "+"
         else:
@@ -191,49 +284,18 @@ def transportation_maximization(proposal, cycle):
 #-------------------------------
 
 def find_cycle(proposal, start):
+    graph = build_graph(proposal)
+    start_row = f"S{start[0]}"
+    start_col = f"C{start[1]}"
+    node_path = _find_node_path(graph, start_row, start_col)
 
-    n = len(proposal)
-    m = len(proposal[0])
+    if node_path is not None:
+        cycle = [start] + _node_path_to_cells(node_path) + [start]
 
-    # Get all basic cells
-    def is_basic(i, j):
-        return proposal[i][j] is not None or (i, j) == start
+        print("\nCycle found:")
+        print(cycle)
 
-    for i1 in range(n):
-        for j1 in range(m):
-            if (i1, j1) == start:
-                continue
-            if not is_basic(i1, j1):
-                continue
-
-            # same row as start
-            if i1 == start[0]:
-
-                for i2 in range(n):
-                    if i2 == i1:
-                        continue
-
-                    if not is_basic(i2, j1):
-                        continue
-
-                    j2 = start[1]
-
-                    # check last corner
-                    if i2 != start[0] and j2 != j1:
-                        if is_basic(i2, j2):
-
-                            cycle = [
-                                start,
-                                (i1, j1),
-                                (i2, j1),
-                                (i2, j2),
-                                start
-                            ]
-
-                            print("\nCycle found:")
-                            print(cycle)
-
-                            return cycle
+        return cycle
 
     print("\nNo valid cycle found.")
     return None
