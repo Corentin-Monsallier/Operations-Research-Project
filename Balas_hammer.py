@@ -1,131 +1,102 @@
-from read_problem import read_problem, display_cost_matrix, display_transport_proposal, total_cost
-import os
+from read_problem import total_cost
 
-# ============================================================
-# BALAS-HAMMER METHOD
-#
-# Builds an initial solution using penalties:
-# - For each row/column, compute penalty = difference between
-#   the two smallest costs
-# - Choose the row/column with the highest penalty
-# - Allocate as much as possible to the cheapest cell
-# - Remove satisfied row/column
-# ============================================================
-
-def compute_penalty(values):
-    # values = list of (cost, i, j) for active cells
-    if not values:
-        return None, None
-
-    values_sorted = sorted(values, key=lambda x: x[0])
-
-    min1 = values_sorted[0]
-
-    if len(values_sorted) == 1:
-        penalty = min1[0]
+def compute_penalty_optimized(idx, is_row, active_rows, active_cols, costs):
+    """
+    Calcule la pénalité pour une ligne ou une colonne spécifique.
+    """
+    if is_row:
+        available_costs = [costs[idx][j] for j in active_cols]
+        row_or_col = "row"
     else:
-        penalty = values_sorted[1][0] - values_sorted[0][0]
+        available_costs = [costs[i][idx] for i in active_rows]
+        row_or_col = "col"
 
-    return penalty, min1
+    if not available_costs:
+        return -1, None
 
+    sorted_costs = sorted(available_costs)
+    
+    if len(sorted_costs) == 1:
+        penalty = sorted_costs[0]
+    else:
+        penalty = sorted_costs[1] - sorted_costs[0]
+    
+    if is_row:
+        best_j = min(active_cols, key=lambda j: costs[idx][j])
+        cell = (idx, best_j)
+    else:
+        best_i = min(active_rows, key=lambda i: costs[i][idx])
+        cell = (best_i, idx)
 
-def balas_hammer(problem):
+    return penalty, cell
+
+def balas_hammer(problem, display=False):
+    """
+    Version optimisée de Balas-Hammer pour les tests de complexité.
+    """
     n, m = problem["n"], problem["m"]
     costs = problem["costs"]
-
     provisions = problem["provisions"][:]
     orders = problem["orders"][:]
 
     proposal = [[None] * m for _ in range(n)]
-
     active_rows = list(range(n))
     active_cols = list(range(m))
 
+    row_penalties = {}
+    col_penalties = {}
+
+    for i in active_rows:
+        row_penalties[i] = compute_penalty_optimized(i, True, active_rows, active_cols, costs)
+    for j in active_cols:
+        col_penalties[j] = compute_penalty_optimized(j, False, active_rows, active_cols, costs)
+
     while active_rows and active_cols:
-        candidates = []
+        max_penalty = -1
+        best_candidate = None 
 
-        print("\nPenalties:")
+        for i, (pen, cell) in row_penalties.items():
+            if pen > max_penalty:
+                max_penalty = pen
+                best_candidate = (True, i, cell)
+        
+        for j, (pen, cell) in col_penalties.items():
+            if pen > max_penalty:
+                max_penalty = pen
+                best_candidate = (False, j, cell)
 
-        # Check row penalties
-        for i in active_rows:
-            values = [(costs[i][j], i, j) for j in active_cols]
-            penalty, min_cell = compute_penalty(values)
+        if best_candidate is None: break
 
-            print(f"Row S{i+1}: {penalty}")
+        is_row, idx, (r, c) = best_candidate
 
-            if penalty is not None:
-                candidates.append({
-                    "kind": "row",
-                    "idx": i,
-                    "penalty": penalty,
-                    "cell": min_cell,
-                })
+        qty = min(provisions[r], orders[c])
+        proposal[r][c] = qty
+        provisions[r] -= qty
+        orders[c] -= qty
 
-        # Check column penalties
-        for j in active_cols:
-            values = [(costs[i][j], i, j) for i in active_rows]
-            penalty, min_cell = compute_penalty(values)
+        removed_row = False
+        removed_col = False
 
-            print(f"Column C{j+1}: {penalty}")
+        if provisions[r] == 0:
+            active_rows.remove(r)
+            del row_penalties[r]
+            removed_row = True
+        
+        if orders[c] == 0:
+            if c in active_cols: 
+                active_cols.remove(c)
+                del col_penalties[c]
+                removed_col = True
 
-            if penalty is not None:
-                candidates.append({
-                    "kind": "column",
-                    "idx": j,
-                    "penalty": penalty,
-                    "cell": min_cell,
-                })
+        if removed_row:
+            for j in active_cols:
+                col_penalties[j] = compute_penalty_optimized(j, False, active_rows, active_cols, costs)
+        
+        if removed_col:
+            for i in active_rows:
+                row_penalties[i] = compute_penalty_optimized(i, True, active_rows, active_cols, costs)
 
-        best_penalty = max(candidate["penalty"] for candidate in candidates)
-        best_candidates = [
-            candidate for candidate in candidates
-            if candidate["penalty"] == best_penalty
-        ]
-        best_candidate = best_candidates[0]
-        best_select = best_candidate["kind"]
-        best_idx = best_candidate["idx"]
-
-        row_labels = [
-            f"S{candidate['idx']+1}"
-            for candidate in best_candidates
-            if candidate["kind"] == "row"
-        ]
-        col_labels = [
-            f"C{candidate['idx']+1}"
-            for candidate in best_candidates
-            if candidate["kind"] == "column"
-        ]
-
-        print(f"\nMax penalty: {best_penalty}")
-        if row_labels:
-            print("Row(s) with max penalty: " + ", ".join(row_labels))
-        if col_labels:
-            print("Column(s) with max penalty: " + ", ".join(col_labels))
-        if len(best_candidates) > 1:
-            print(
-                f"Chosen candidate: {best_select} {best_idx+1} "
-                "(tie-break: first in scan order)"
-            )
-        else:
-            print(f"Chosen candidate: {best_select} {best_idx+1}")
-
-        # Allocation on selected cell
-        # choice of edge
-        _, i, j = best_candidate["cell"]
-        print(f"Selected cell: S{i+1}, C{j+1} (cost = {costs[i][j]})")
-        qty = min(provisions[i], orders[j])
-        proposal[i][j] = qty
-
-        provisions[i] -= qty
-        orders[j] -= qty
-
-        # Remove satisfied row or column
-        if provisions[i] == 0 and orders[j] == 0:
-            active_rows.remove(i)
-            active_cols.remove(j)
-        elif provisions[i] == 0:
-            active_rows.remove(i)
-        else:
-            active_cols.remove(j)
+        if display:
+            print(f"Allocated {qty} at ({r+1},{c+1}), Penalty: {max_penalty}")
 
     return proposal

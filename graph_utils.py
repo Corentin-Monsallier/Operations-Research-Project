@@ -1,8 +1,5 @@
 from collections import deque
 
-# --------------------------------------------------
-# BUILD GRAPH
-# --------------------------------------------------
 
 def build_graph(proposal):
     """
@@ -13,13 +10,11 @@ def build_graph(proposal):
 
     graph = {}
 
-    # Create nodes
     for i in range(n):
         graph[f"S{i}"] = []
     for j in range(m):
         graph[f"C{j}"] = []
 
-    # Add edges
     for i in range(n):
         for j in range(m):
             if proposal[i][j] is not None:
@@ -31,9 +26,6 @@ def build_graph(proposal):
 
     return graph
 
-# --------------------------------------------------
-# DISPLAY GRAPH
-# --------------------------------------------------
 
 def display_graph(proposal):
     
@@ -57,9 +49,6 @@ def display_graph(proposal):
         print(e)
 
 
-# --------------------------------------------------
-# CONNECTED COMPONENTS (BFS)
-# --------------------------------------------------
 
 def find_connected_components(graph):
     """
@@ -93,72 +82,32 @@ def _display_node(node):
     return f"{node[0]}{int(node[1:]) + 1}"
 
 
-# --------------------------------------------------
-# CONNECT GRAPH (FIX NON-CONNECTED)
-# --------------------------------------------------
 
 def connect_graph(problem, proposal):
     costs = problem["costs"]
-
-    while True:
+    all_edges = []
+    for i in range(problem["n"]):
+        for j in range(problem["m"]):
+            if proposal[i][j] is None:
+                all_edges.append((costs[i][j], i, j))
+    all_edges.sort() 
+    
+    for cost, i, j in all_edges:
         graph = build_graph(proposal)
         components = find_connected_components(graph)
-
-        # If already connected => stop
-        if len(components) == 1:
-            print("\nGraph is now connected.")
-            break
-
-        print("\nGraph not connected => we add the edges:")
-
-        best_edge = None
-        best_cost = float("inf")
-
-        # Try all non-basic cells
-        for i in range(problem["n"]):
-            for j in range(problem["m"]):
-
-                if proposal[i][j] is None:
-
-                    s = f"S{i}"
-                    c = f"C{j}"
-
-                    comp_s = None
-                    comp_c = None
-
-                    # Find components of S and C
-                    for comp in components:
-                        if s in comp:
-                            comp_s = comp
-                        if c in comp:
-                            comp_c = comp
-
-                    # Only connect different components
-                    if comp_s != comp_c:
-                        if costs[i][j] < best_cost:
-                            best_cost = costs[i][j]
-                            best_edge = (i, j)
-
-        if best_edge is None:
-            print("No possible edge to connect components.")
-            break
-
-        i, j = best_edge
-
-        # Add edge with zero flow
-        proposal[i][j] = 0
-
-        print(f"Added edge: S{i+1}, C{j+1} (cost = {costs[i][j]})")
-
+        if len(components) == 1: break
+        
+        s, c = f"S{i}", f"C{j}"
+        comp_s = next(comp for comp in components if s in comp)
+        comp_c = next(comp for comp in components if c in comp)
+        
+        if comp_s != comp_c:
+            proposal[i][j] = 0 
     return proposal
 
 
-# --------------------------------------------------
-# TEST CONNECTIVITY
-# --------------------------------------------------
 
 def test_connectivity(proposal):
-    # Check if the graph is connected and display connected subgraphs.
     graph = build_graph(proposal)
     components = find_connected_components(graph)
 

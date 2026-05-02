@@ -11,26 +11,24 @@ from collections import deque
 def compute_potentials(problem, proposal):
     n, m = problem["n"], problem["m"]
     costs = problem["costs"]
-
     u = [None] * n
     v = [None] * m
 
     u[0] = 0
+    queue = deque([('u', 0)]) 
 
-    changed = True
-    while changed:
-        changed = False
-
-        for i in range(n):
+    while queue:
+        type, idx = queue.popleft()
+        if type == 'u':
             for j in range(m):
-                if proposal[i][j] is not None:  # basic cell
-                    if u[i] is not None and v[j] is None:
-                        v[j] = costs[i][j] - u[i]
-                        changed = True
-                    elif v[j] is not None and u[i] is None:
-                        u[i] = costs[i][j] - v[j]
-                        changed = True
-
+                if proposal[idx][j] is not None and v[j] is None:
+                    v[j] = costs[idx][j] - u[idx]
+                    queue.append(('v', j))
+        else:
+            for i in range(n):
+                if proposal[i][idx] is not None and u[i] is None:
+                    u[i] = costs[i][idx] - v[idx]
+                    queue.append(('u', i))
     return u, v
 
 def potential_costs(problem, u, v):
@@ -44,9 +42,6 @@ def potential_costs(problem, u, v):
 
     return table
 
-#------------------------------
-# MARGINAL COSTS
-#------------------------------
 
 def marginal_costs(problem, u, v):
     n, m = problem["n"], problem["m"]
@@ -60,9 +55,6 @@ def marginal_costs(problem, u, v):
 
     return table
 
-#------------------------------
-# DEGENERATE OR NOT
-#------------------------------
 
 def is_degenerate(problem, proposal):
     n, m = problem["n"], problem["m"]
@@ -74,9 +66,6 @@ def is_degenerate(problem, proposal):
 
     return count < (n + m - 1)
 
-#-------------------------------
-# CYCLE PART
-#-------------------------------
 
 def find_improving_cell(problem, u, v, proposal):
     n, m = problem["n"], problem["m"]
@@ -87,7 +76,7 @@ def find_improving_cell(problem, u, v, proposal):
 
     for i in range(n):
         for j in range(m):
-            if proposal[i][j] is None:  # non-basic cell
+            if proposal[i][j] is None:
                 delta = costs[i][j] - u[i] - v[j]
 
                 if delta < best_value:
@@ -167,46 +156,36 @@ def _find_node_path(graph, start, goal):
 
 def _find_cycle_node_path(graph):
     visited = set()
-    stack = set()
     parents = {}
 
-    def dfs(node, parent):
-        visited.add(node)
-        stack.add(node)
-        parents[node] = parent
-
-        for neighbor in graph[node]:
-            if neighbor == parent:
-                continue
-
-            if neighbor not in visited:
-                cycle = dfs(neighbor, node)
-                if cycle is not None:
-                    return cycle
-            elif neighbor in stack:
-                path = []
-                current = node
-
-                while current != neighbor:
-                    path.append(current)
-                    current = parents[current]
-
-                path.reverse()
-                return [neighbor] + path + [neighbor]
-
-        stack.remove(node)
-        return None
-
-    for start in graph:
-        if start not in visited:
-            cycle = dfs(start, None)
-            if cycle is not None:
-                return cycle
-
+    for start_node in graph:
+        if start_node in visited:
+            continue
+            
+        stack = [(start_node, None)]
+        
+        while stack:
+            node, parent = stack.pop()
+            
+            if node not in visited:
+                visited.add(node)
+                parents[node] = parent
+                
+                for neighbor in graph[node]:
+                    if neighbor == parent:
+                        continue
+                    if neighbor in visited:
+                        path = []
+                        current = node
+                        while current != neighbor and current is not None:
+                            path.append(current)
+                            current = parents[current]
+                        return [neighbor] + path + [neighbor]
+                    
+                    stack.append((neighbor, node))
     return None
 
 
-# Test acyclic
 def detect_cycle(proposal):
     graph = build_graph(proposal)
     node_cycle = _find_cycle_node_path(graph)
@@ -238,9 +217,6 @@ def transportation_maximization(proposal, cycle):
 
     print("\n=== TRANSPORTATION MAXIMIZATION ===")
 
-    # --------------------------------------------------------
-    # Step 1: Display conditions (+ / -) for each box
-    # --------------------------------------------------------
     print("\nConditions for each box:")
 
     minus_cells = []  # store cells with '-' sign
@@ -252,20 +228,12 @@ def transportation_maximization(proposal, cycle):
             sign = "-"
             minus_cells.append((i, j))
 
-        print(f"{sign} P{i+1}, C{j+1}")
+        #print(f"{sign} P{i+1}, C{j+1}")
 
-    # --------------------------------------------------------
-    # Step 2: Compute theta
-    # Theta = minimum value among cells with '-' sign
-    # --------------------------------------------------------
     theta = min(proposal[i][j] for i, j in minus_cells)
 
     print(f"\nTheta (maximum transport): {theta}")
 
-    # --------------------------------------------------------
-    # Step 3: Identify deleted edges
-    # A deleted edge is a '-' cell that becomes 0 after subtraction
-    # --------------------------------------------------------
     print("\nDeleted edge(s):")
 
     deleted_found = False
@@ -279,9 +247,6 @@ def transportation_maximization(proposal, cycle):
         print("None")
 
 
-#-------------------------------
-# FIND CYCLE -> TO UPDATE THE SOLUTION
-#-------------------------------
 
 def find_cycle(proposal, start):
     graph = build_graph(proposal)
@@ -319,7 +284,7 @@ def update_proposal(proposal, cycle):
     print("Before update:")
     for (i, j, sign) in signs:
         val = proposal[i][j]
-        print(f"{sign} S{i+1}, C{j+1} : {val}")
+        #print(f"{sign} S{i+1}, C{j+1} : {val}")
 
     # APPLY
     for (i, j, sign) in signs:
@@ -333,7 +298,7 @@ def update_proposal(proposal, cycle):
     print("\nAfter update:")
     for (i, j, sign) in signs:
         val = proposal[i][j]
-        print(f"{sign} S{i+1}, C{j+1} : {val}")
+        #print(f"{sign} S{i+1}, C{j+1} : {val}")
 
     print("\nRemoved edges:")
     removed = False
@@ -341,7 +306,7 @@ def update_proposal(proposal, cycle):
     for (i, j) in minus_cells:
         if proposal[i][j] == 0:
             proposal[i][j] = None
-            print(f"S{i+1}, C{j+1}")
+            #print(f"S{i+1}, C{j+1}")
             removed = True
 
     if not removed:
