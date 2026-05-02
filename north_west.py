@@ -29,7 +29,9 @@ def north_west(problem):
 
         # Move in the table
         if provisions[i] == 0 and orders[j] == 0:
-            # Degenerate case: move diagonally
+            # Preserve a non-degenerate basis by marking an adjacent zero cell.
+            if i < n - 1 and j < m - 1 and proposal[i][j + 1] is None:
+                proposal[i][j + 1] = 0
             i += 1
             j += 1
         elif provisions[i] == 0:

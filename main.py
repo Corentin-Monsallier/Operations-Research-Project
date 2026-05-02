@@ -54,7 +54,7 @@ def main():
         if algo == "1":
             proposal = north_west(problem)
         elif algo == "2":
-            proposal = balas_hammer(problem)
+            proposal = balas_hammer(problem, display=True)
         else:
             print("Invalid choice.")
             continue
@@ -64,75 +64,7 @@ def main():
         display_graph(proposal)
         print(f"Initial cost: {total_cost(problem, proposal)}")
 
-        # STEPPING-STONE
-        iteration = 0
-
-        while True:
-            iteration += 1
-
-            print("\n-----------")
-            print(f" ITERATION {iteration}")
-            print("-----------")
-
-            # Display current solution
-            display_transport_proposal(problem, proposal)
-            display_graph(proposal)
-            print(f"Current cost: {total_cost(problem, proposal)}")
-
-            if is_degenerate(problem, proposal):
-                print("The proposal is degenerate")
-
-            # Modify the transport graph until we get a tree
-            while True:
-                cycle = detect_cycle(proposal)
-                if cycle:
-                    print("Graph contains a cycle.")
-                    transportation_maximization(proposal, cycle)
-                    update_proposal(proposal, cycle)
-                    continue
-
-                test_connectivity(proposal)
-                graph = build_graph(proposal)
-
-                if len(find_connected_components(graph)) == 1:
-                    break
-
-                proposal = connect_graph(problem, proposal)
-
-            # Potentials
-            u, v = compute_potentials(problem, proposal)
-
-            print("\nPotentials:")
-            print("u =", u)
-            print("v =", v)
-
-            # Tables costs
-            display_potential_costs(problem, u, v)
-            display_marginal_costs(problem, u, v)
-
-            # Optimality check
-            print("\n--- Checking optimality ---")
-
-            cell, value = find_improving_cell(problem, u, v, proposal)
-
-            if cell is None:
-                print("=> IT IS THE OPTIMAL SOLUTION")
-                break
-
-            print(f"Improving edge: S{cell[0]+1}, C{cell[1]+1} (delta = {value})")
-
-            # Find cycle
-            cycle = find_cycle(proposal, cell)
-
-            if not cycle:
-                print("No cycle found => STOP")
-                break
-
-            # Transportation maximization
-            transportation_maximization(proposal, cycle)
-
-            # Apply update
-            update_proposal(proposal, cycle)
+        proposal = solve_stepping_stone(problem, proposal, verbose=True)
 
         # -----------------------------------
         # Final result

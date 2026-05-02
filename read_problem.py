@@ -189,5 +189,5 @@ def total_cost(problem, proposal):
     for i in range(n):
         for j in range(m):
             if proposal[i][j] is not None and proposal[i][j] > 0:
-                cost += problem["costs"][i][j] * proposal[i][j]
+                cost += int(problem["costs"][i][j]) * proposal[i][j]
     return cost
