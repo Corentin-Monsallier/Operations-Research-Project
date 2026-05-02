@@ -137,6 +137,7 @@ def _save_results_csv(results, n_values):
                     writer.writerow([metric, n, idx, value])
 
 
+# Save worst-case values to CSV
 def _save_worst_csv(worst, n_values):
     os.makedirs(RESULTS_OUTPUT_DIR, exist_ok=True)
     csv_path = os.path.join(RESULTS_OUTPUT_DIR, "worst_case_results.csv")
@@ -150,6 +151,7 @@ def _save_worst_csv(worst, n_values):
                 writer.writerow([metric, n, worst[metric][idx]])
 
 
+# Compute worst-case (max) timings
 def _worst_case(results, n_values):
     return {
         key: [max(results[key][n]) for n in n_values]
@@ -157,6 +159,7 @@ def _worst_case(results, n_values):
     }
 
 
+# Scatter plots of all runs (with annotations)
 def _plot_metric_panels(results, n_values, nb_test):
     fig, axs = plt.subplots(2, 3, figsize=(15, 10))
     plot_mappings = [
@@ -185,6 +188,7 @@ def _plot_metric_panels(results, n_values, nb_test):
     _finalize_figure("scatter_plots.png")
 
 
+# Worst-case plots (max per n)
 def _plot_worst_case_panels(worst, n_values):
     fig, axs = plt.subplots(2, 3, figsize=(15, 10))
     plot_mappings = [
@@ -212,6 +216,7 @@ def _plot_worst_case_panels(worst, n_values):
     _finalize_figure("worst_case_plots.png")
 
 
+# Plot ratio between NW and BH total times
 def _plot_ratio(worst, n_values):
     ratios = [
         (worst["NO_total"][i] / worst["BH_total"][i])
@@ -233,6 +238,7 @@ def _plot_ratio(worst, n_values):
     _finalize_figure("worst_case_ratio.png")
 
 
+# Main experiment loop
 def complexity(n_values=None, nb_test=DEFAULT_NB_TEST):
     if n_values is None:
         n_values = DEFAULT_N_VALUES
@@ -302,6 +308,7 @@ def complexity(n_values=None, nb_test=DEFAULT_NB_TEST):
     return results, worst
 
 
+# CLI argument parsing
 def _parse_args():
     parser = argparse.ArgumentParser(description="Complexity study for the transport project.")
     parser.add_argument(

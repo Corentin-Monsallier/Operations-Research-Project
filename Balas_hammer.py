@@ -140,77 +140,64 @@ def _balas_hammer_vectorized(n, m, costs_np, provisions, orders):
         # get the remaining costs (submatrix)
         sub = costs_np[ar[:, None], ac[None, :]]
 
-        # Penalties of the rows:
-        # - if at least two columns remain, penalty = 2nd min - min
-        # - otherwise penalty = only remaining cost
+        # row penalties = difference between 2 smallest values
         if nc >= 2:
             part_r = np.partition(sub, 1, axis=1)
             row_pen = part_r[:, 1].astype(np.int32) - part_r[:, 0].astype(np.int32)
         else:
             row_pen = sub[:, 0].astype(np.int32)
 
-        # For each active row, we also store the best column.
+        # best column for each row
         row_best_local = sub.argmin(axis=1)
 
-        # Same logic for the columns.
+        # same for column
         if nr >= 2:
             part_c = np.partition(sub, 1, axis=0)
             col_pen = part_c[1].astype(np.int32) - part_c[0].astype(np.int32)
         else:
             col_pen = sub[0].astype(np.int32)
 
-        # For each active column, we store the best row.
+        # best row for each column
         col_best_local = sub.argmin(axis=0)
 
-        # We compare the best row penalty and the best column penalty.
+        # compare best row vs best column
         max_r = int(row_pen.max())
         max_c = int(col_pen.max())
 
         if max_r >= max_c:
-            # If a row wins, we choose the most penalized row
-            # then its best column.
+            # choose row
             li = int(row_pen.argmax())
             lj = int(row_best_local[li])
         else:
-            # Otherwise a column wins, and we choose its best row.
+            # choose column
             lj = int(col_pen.argmax())
             li = int(col_best_local[lj])
 
-        # Conversion of local indices into global indices.
+        # convert local indices => real indices
         r, c = int(ar[li]), int(ac[lj])
 
-        # Transported quantity = minimum between remaining supply and remaining demand.
+        # quantity to send = min of supply and demand
         qty = min(prov[r], ord_[c])
         proposal[r][c] = qty
         prov[r] -= qty
         ord_[c] -= qty
 
-        # Every exhausted row/column leaves the active set.
+        # remove row/column if finished
         if prov[r] == 0:
-            # Row r leaves the active rows.
             ar = ar[ar != r]
         if ord_[c] == 0:
-            # Column c leaves the active columns.
             ac = ac[ac != c]
 
     return proposal
 
-
+# initial balas_hammer
 def balas_hammer(problem, display=False):
-    """
-    Builds an initial solution by the Balas-Hammer method.
-
-    Two modes coexist:
-    - display=False: fast path for complexity measurements
-    - display=True: detailed path, more readable in execution trace
-    """
     n, m = problem["n"], problem["m"]
     costs = problem["costs"]
     provisions = problem["provisions"][:]
     orders = problem["orders"][:]
 
-    # If numpy is available and we do not need a user trace,
-    # we take the vectorized version.
+    # version with numpy
     if np is not None and not display:
         if isinstance(costs, np.ndarray):
             costs_np = costs
@@ -218,16 +205,14 @@ def balas_hammer(problem, display=False):
             costs_np = np.asarray(costs, dtype=np.int32)
         return _balas_hammer_vectorized(n, m, costs_np, provisions, orders)
 
-    # Otherwise we follow a more explicit version, ideal for understanding the code.
+    # explicit version
     proposal = [[None] * m for _ in range(n)]
 
     # Rows and columns still available.
     active_rows = list(range(n))
     active_cols = list(range(m))
 
-    # Dictionaries:
-    # - key = row/column index
-    # - value = (penalty, associated best cell)
+    # dictionaries: key = row/column index // value = (penalty, associated best cell)
     row_penalties = {}
     col_penalties = {}
 
@@ -237,23 +222,18 @@ def balas_hammer(problem, display=False):
     for j in active_cols:
         col_penalties[j] = compute_penalty_optimized(j, False, active_rows, active_cols, costs)
 
-    # Main loop: we choose one cell to fill at each turn.
+    # main loop: we choose one cell to fill at each turn
     while active_rows and active_cols:
         max_penalty, candidates = _best_candidates(row_penalties, col_penalties)
         best_candidate = candidates[0] if candidates else None
 
-        # Defensive protection: in practice, we should not end up here.
         if best_candidate is None:
             break
 
-        # The candidate stores:
-        # - whether it comes from a row or a column
-        # - its index
-        # - the corresponding best cell
         _is_row, _idx, (r, c) = best_candidate
 
         if display:
-            # For the trace, we display all tied rows/columns.
+            # for the trace : we display all tied rows/columns.
             labels = [
                 _format_penalty_label(candidate_is_row, candidate_idx)
                 for candidate_is_row, candidate_idx, _cell in candidates
@@ -262,35 +242,34 @@ def balas_hammer(problem, display=False):
             print("Rows/columns with maximum penalty:", ", ".join(labels))
             print(f"Chosen edge: S{r+1}, C{c+1} (cost = {costs[r][c]})")
 
-        # We assign everything possible in the best chosen cell.
+        # assign everything possible in the best chosen cell
         qty = min(provisions[r], orders[c])
         proposal[r][c] = qty
         provisions[r] -= qty
         orders[c] -= qty
 
-        # These booleans are used to know which penalties to recompute afterward.
+        # booleans used to know which penalties to recompute
         removed_row = False
         removed_col = False
 
-        # If the row has no more supply, we remove it completely.
+        # if the row has no more supply, we remove it completely
         if provisions[r] == 0:
             active_rows.remove(r)
             del row_penalties[r]
             removed_row = True
 
-        # If the column has no more demand, we remove it too.
+        # if the column has no more orders, we remove it completely
         if orders[c] == 0 and c in active_cols:
             active_cols.remove(c)
             del col_penalties[c]
             removed_col = True
 
-        # When a row disappears, all still active columns
-        # may see their penalty change.
+        # when a row disappears, all still active columns may see their penalty change
         if removed_row:
             for j in active_cols:
                 col_penalties[j] = compute_penalty_optimized(j, False, active_rows, active_cols, costs)
 
-        # Symmetrically, when a column disappears, we recompute the rows.
+        # same with column
         if removed_col:
             for i in active_rows:
                 row_penalties[i] = compute_penalty_optimized(i, True, active_rows, active_cols, costs)
