@@ -1,0 +1,7 @@
+metric,n,test_index,time_seconds
+NO,1000,1,0.0
+BH,1000,1,4.984375
+tNO,1000,1,33.6875
+tBH,1000,1,2.125
+NO_total,1000,1,33.6875
+BH_total,1000,1,7.109375

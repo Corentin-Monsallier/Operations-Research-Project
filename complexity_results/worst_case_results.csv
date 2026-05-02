@@ -1,0 +1,7 @@
+metric,n,worst_time_seconds
+NO,1000,0.0
+BH,1000,4.984375
+tNO,1000,33.6875
+tBH,1000,2.125
+NO_total,1000,33.6875
+BH_total,1000,7.109375
