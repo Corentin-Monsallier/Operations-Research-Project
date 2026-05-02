@@ -4,62 +4,57 @@ import os
 import random
 import time
 
-os.environ.setdefault("OMP_NUM_THREADS", "1")
-os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
-os.environ.setdefault("MKL_NUM_THREADS", "1")
-os.environ.setdefault("NUMEXPR_NUM_THREADS", "1")
-
-mpl_cache_dir = os.path.join(os.path.dirname(__file__), ".matplotlib-cache")
-os.makedirs(mpl_cache_dir, exist_ok=True)
-os.environ.setdefault("MPLCONFIGDIR", mpl_cache_dir)
-
 import matplotlib.pyplot as plt
-
-try:
-    import numpy as np
-except ImportError:  # pragma: no cover - optional optimization
-    np = None
+import numpy as np
 
 from north_west import north_west
 from Balas_hammer import balas_hammer
 from stepping_stone_utils import solve_stepping_stone
 
+# Limit multithreading for reproducibility and fair timing
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("MKL_NUM_THREADS", "1")
+os.environ.setdefault("NUMEXPR_NUM_THREADS", "1")
 
+# Configure Matplotlib cache locally (avoids permission issues)
+mpl_cache_dir = os.path.join(os.path.dirname(__file__), ".matplotlib-cache")
+os.makedirs(mpl_cache_dir, exist_ok=True)
+os.environ.setdefault("MPLCONFIGDIR", mpl_cache_dir)
+
+# Default experiment parameters and directories for plots and raw data
 DEFAULT_N_VALUES = [10, 40, 100, 400, 1000, 4000, 10000]
 DEFAULT_NB_TEST = 100
 PLOT_OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "complexity_plots")
 RESULTS_OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "complexity_results")
 
 
+# Generate a random transport problem of size n x n
 def generate_transport_problem(n):
     """
-    Generation d'un probleme de transport carre aleatoire.
+    Generates a balanced random transport problem:
+    - cost matrix
+    - supply (provisions)
+    - demand (orders)
     """
-    if np is not None:
-        costs = np.random.randint(1, 101, size=(n, n), dtype=np.int16)
-        orders = np.zeros(n, dtype=np.int64)
-        provisions = [0] * n
-        chunk_rows = max(1, min(256, 2_000_000 // max(n, 1)))
+    costs = np.random.randint(1, 101, size=(n, n), dtype=np.int16)
 
-        for start in range(0, n, chunk_rows):
-            stop = min(start + chunk_rows, n)
-            temp_chunk = np.random.randint(1, 101, size=(stop - start, n), dtype=np.int16)
-            provisions[start:stop] = temp_chunk.sum(axis=1, dtype=np.int64).tolist()
-            orders += temp_chunk.sum(axis=0, dtype=np.int64)
+    orders = np.zeros(n, dtype=np.int64)
+    provisions = [0] * n
+    # Chunking to avoid excessive memory usage for large n
+    chunk_rows = max(1, min(256, 2_000_000 // max(n, 1)))
 
-        orders = orders.tolist()
-    else:
-        costs = [[random.randint(1, 100) for _ in range(n)] for _ in range(n)]
-        provisions = [0] * n
-        orders = [0] * n
+    for start in range(0, n, chunk_rows):
+        stop = min(start + chunk_rows, n)
+        temp_chunk = np.random.randint(1, 101, size=(stop - start, n), dtype=np.int16)
 
-        for i in range(n):
-            row_sum = 0
-            for j in range(n):
-                value = random.randint(1, 100)
-                row_sum += value
-                orders[j] += value
-            provisions[i] = row_sum
+        # Compute row sums (supply)
+        provisions[start:stop] = temp_chunk.sum(axis=1, dtype=np.int64).tolist()
+
+        # Accumulate column sums (demand)
+        orders += temp_chunk.sum(axis=0, dtype=np.int64)
+
+    orders = orders.tolist()
 
     return {
         "n": n,
@@ -70,15 +65,24 @@ def generate_transport_problem(n):
     }
 
 
+# Measure CPU execution time of a function
 def measure_time(func, *args):
-    """Retourne le temps CPU d'execution precis."""
+    """Returns CPU time and function result."""
     start = time.process_time()
     result = func(*args)
     end = time.process_time()
     return end - start, result
 
 
+# Initialize result storage structure
 def _empty_results(n_values):
+    """
+    Creates a dictionary of lists for storing timings:
+    - NO: North-West
+    - BH: Balas-Hammer
+    - tNO / tBH: Stepping-Stone improvements
+    - *_total: combined times
+    """
     return {
         "NO": {n: [] for n in n_values},
         "BH": {n: [] for n in n_values},
@@ -89,10 +93,14 @@ def _empty_results(n_values):
     }
 
 
+# Format durations for logging
+def _format_duration(seconds):
+    """Readable duration formatting."""
 def _format_duration(seconds):
     seconds = max(0.0, float(seconds))
+
     if seconds < 60:
-        return f"{seconds:.1f}s"
+        return f"{seconds:.4f}s"
 
     minutes, sec = divmod(int(seconds), 60)
     if minutes < 60:
@@ -102,6 +110,7 @@ def _format_duration(seconds):
     return f"{hours}h{minutes:02d}m{sec:02d}s"
 
 
+# Save or display figures depending on backend
 def _finalize_figure(filename):
     backend = plt.get_backend().lower()
 
@@ -113,6 +122,7 @@ def _finalize_figure(filename):
         plt.show()
 
 
+# Save all raw timing results to CSV
 def _save_results_csv(results, n_values):
     os.makedirs(RESULTS_OUTPUT_DIR, exist_ok=True)
     csv_path = os.path.join(RESULTS_OUTPUT_DIR, "raw_results.csv")
@@ -160,7 +170,11 @@ def _plot_metric_panels(results, n_values, nb_test):
 
     for ax, key, title in plot_mappings:
         for n in n_values:
-            ax.scatter([n] * nb_test, results[key][n], label=f"n={n}", s=12)
+            values = results[key][n]
+            ax.scatter([n] * nb_test, values, label=f"n={n}", s=12)
+
+            for i, val in enumerate(values):
+                ax.text(n, val, f"{val:.4f}", fontsize=8)
         ax.set_title(title)
         ax.set_xlabel("n")
         ax.set_ylabel("Execution time (s)")
@@ -183,7 +197,12 @@ def _plot_worst_case_panels(worst, n_values):
     ]
 
     for ax, key, title in plot_mappings:
-        ax.plot(n_values, worst[key], marker="o")
+        y_values = worst[key]
+        ax.plot(n_values, y_values, marker="o")
+
+        for x, y in zip(n_values, y_values):
+            ax.text(x, y, f"{y:.4f}", fontsize=8, ha='center', va='bottom')
+
         ax.set_title(title)
         ax.set_xlabel("n")
         ax.set_ylabel("Time max (s)")
@@ -202,10 +221,15 @@ def _plot_ratio(worst, n_values):
 
     plt.figure(figsize=(8, 5))
     plt.plot(n_values, ratios, marker="o", color="purple")
+
+    for x, y in zip(n_values, ratios):
+        plt.text(x, y, f"{y:.4f}", fontsize=8, ha='center', va='bottom')
+
     plt.title("Worst-case comparison ratio: (thetaNW+tNW) / (thetaBH+tBH)")
     plt.xlabel("n")
     plt.ylabel("Ratio")
     plt.grid(True)
+
     _finalize_figure("worst_case_ratio.png")
 
 
